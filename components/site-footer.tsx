@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-20 border-t border-white/70 bg-white/60">
+    <footer className="mt-20 border-t border-white/10 bg-black/30 backdrop-blur">
       <div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 md:grid-cols-[1.2fr_repeat(3,1fr)]">
         <div>
           <p className="font-semibold">Talosly</p>

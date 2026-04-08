@@ -41,7 +41,7 @@ export function PolicyGeneratorForm() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[380px_1fr]">
-      <form className="space-y-5 rounded-3xl border border-border bg-white p-6 shadow-soft" onSubmit={onSubmit}>
+      <form className="space-y-5 rounded-3xl border border-border bg-card p-6 shadow-soft" onSubmit={onSubmit}>
         <div className="space-y-2">
           <label className="text-sm font-medium">Company name</label>
           <Input value={companyName} onChange={(event) => setCompanyName(event.target.value)} />
@@ -58,7 +58,7 @@ export function PolicyGeneratorForm() {
         <div className="space-y-2">
           <label className="text-sm font-medium">Policy type</label>
           <select
-            className="h-11 w-full rounded-2xl border border-border bg-white px-4 text-sm"
+            className="h-11 w-full rounded-2xl border border-border bg-card px-4 text-sm text-foreground"
             value={policyType}
             onChange={(event) => setPolicyType(event.target.value)}
           >
@@ -86,7 +86,7 @@ export function PolicyGeneratorForm() {
           {loading ? "Generating..." : "Generate Policy"}
         </Button>
       </form>
-      <div className="rounded-3xl border border-border bg-white p-6 shadow-soft">
+      <div className="rounded-3xl border border-border bg-card p-6 shadow-soft">
         <h2 className="font-semibold">Policy document</h2>
         <pre className="mt-4 whitespace-pre-wrap text-sm text-muted-foreground">
           {document || "Your generated policy will appear here."}

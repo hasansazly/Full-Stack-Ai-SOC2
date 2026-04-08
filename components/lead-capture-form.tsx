@@ -51,7 +51,7 @@ export function LeadCaptureForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-[2rem] border border-border bg-white p-6 shadow-soft">
+    <form onSubmit={onSubmit} className="rounded-[2rem] border border-border bg-card p-6 shadow-soft">
       <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Not ready to connect credentials?</p>
       <h3 className="mt-3 text-2xl font-semibold">Get the founder checklist and sample blockers instead.</h3>
       <p className="mt-3 text-sm text-muted-foreground">
@@ -79,7 +79,7 @@ export function LeadCaptureForm() {
           {loading ? "Submitting..." : "Get sample findings"}
         </Button>
       </div>
-      <p className={`mt-3 text-sm ${submitted ? "text-emerald-700" : "text-muted-foreground"}`}>{message}</p>
+      <p className={`mt-3 text-sm ${submitted ? "text-emerald-300" : "text-muted-foreground"}`}>{message}</p>
     </form>
   );
 }

@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils";
 const badgeVariants = cva("inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold", {
   variants: {
     variant: {
-      critical: "bg-red-100 text-red-700",
-      high: "bg-orange-100 text-orange-700",
-      medium: "bg-amber-100 text-amber-700",
-      low: "bg-emerald-100 text-emerald-700",
-      neutral: "bg-slate-100 text-slate-700"
+      critical: "bg-red-500/15 text-red-300 ring-1 ring-red-500/20",
+      high: "bg-orange-500/15 text-orange-300 ring-1 ring-orange-500/20",
+      medium: "bg-amber-500/15 text-amber-300 ring-1 ring-amber-500/20",
+      low: "bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/20",
+      neutral: "bg-white/10 text-slate-300 ring-1 ring-white/10"
     }
   },
   defaultVariants: {

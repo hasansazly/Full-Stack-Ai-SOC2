@@ -9,30 +9,30 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        border: "hsl(215 25% 88%)",
-        input: "hsl(215 25% 88%)",
-        ring: "hsl(206 100% 42%)",
-        background: "hsl(48 29% 96%)",
-        foreground: "hsl(210 39% 16%)",
+        border: "hsl(240 6% 16%)",
+        input: "hsl(240 6% 16%)",
+        ring: "hsl(239 84% 67%)",
+        background: "hsl(240 10% 4%)",
+        foreground: "hsl(0 0% 98%)",
         primary: {
-          DEFAULT: "hsl(206 100% 42%)",
+          DEFAULT: "hsl(239 84% 67%)",
           foreground: "hsl(0 0% 100%)"
         },
         secondary: {
-          DEFAULT: "hsl(164 42% 92%)",
-          foreground: "hsl(165 74% 18%)"
+          DEFAULT: "hsl(240 6% 12%)",
+          foreground: "hsl(0 0% 98%)"
         },
         muted: {
-          DEFAULT: "hsl(40 18% 92%)",
-          foreground: "hsl(215 18% 35%)"
+          DEFAULT: "hsl(240 5% 10%)",
+          foreground: "hsl(240 5% 65%)"
         },
         accent: {
-          DEFAULT: "hsl(17 89% 92%)",
-          foreground: "hsl(14 74% 31%)"
+          DEFAULT: "hsl(239 50% 18%)",
+          foreground: "hsl(239 90% 84%)"
         },
         card: {
-          DEFAULT: "hsl(0 0% 100%)",
-          foreground: "hsl(210 39% 16%)"
+          DEFAULT: "hsl(240 6% 8%)",
+          foreground: "hsl(0 0% 98%)"
         },
         destructive: {
           DEFAULT: "hsl(0 84% 60%)",

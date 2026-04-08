@@ -13,7 +13,7 @@ export default function ContactPage() {
         </p>
       </div>
       <div className="grid gap-6 lg:grid-cols-[1fr_420px]">
-        <div className="rounded-3xl border border-border bg-white p-6 shadow-soft">
+        <div className="rounded-3xl border border-border bg-card p-6 shadow-soft">
           <h2 className="text-xl font-semibold">Best next steps</h2>
           <div className="mt-5 space-y-4 text-sm text-muted-foreground">
             <p>Book a readiness review if a live deal is already waiting on security answers.</p>

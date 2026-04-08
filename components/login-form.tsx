@@ -32,7 +32,7 @@ export function LoginForm() {
   }
 
   return (
-    <form className="space-y-4 rounded-3xl border border-border bg-white p-6 shadow-soft" onSubmit={handleSubmit}>
+    <form className="space-y-4 rounded-3xl border border-border bg-card p-6 shadow-soft" onSubmit={handleSubmit}>
       <div className="space-y-2">
         <label className="text-sm font-medium">Work email</label>
         <Input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@company.com" />

@@ -49,10 +49,10 @@ export function FindingsList({ findings }: { findings: FindingRecord[] }) {
               </div>
             </button>
             {isOpen ? (
-              <CardContent className="border-t border-border bg-muted/40">
+              <CardContent className="border-t border-border bg-muted/30">
                 <div className="space-y-5">
                   {meta ? (
-                    <div className="grid gap-4 rounded-2xl border border-border bg-white p-4 md:grid-cols-3">
+                    <div className="grid gap-4 rounded-2xl border border-border bg-card p-4 md:grid-cols-3">
                       <div>
                         <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Owner</p>
                         <p className="mt-2 text-sm font-medium text-foreground">{meta.owner}</p>
@@ -127,7 +127,7 @@ function QuestionnaireAnswerButton({ findingId }: { findingId: string }) {
       <Button variant="outline" size="sm" onClick={generate} disabled={loading || !findingId}>
         {loading ? "Generating..." : "Generate Questionnaire Answer"}
       </Button>
-      {answer ? <pre className="whitespace-pre-wrap rounded-2xl bg-white p-4 text-sm text-muted-foreground">{answer}</pre> : null}
+      {answer ? <pre className="whitespace-pre-wrap rounded-2xl bg-card p-4 text-sm text-muted-foreground">{answer}</pre> : null}
     </div>
   );
 }

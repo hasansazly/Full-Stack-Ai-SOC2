@@ -159,7 +159,7 @@ export function DashboardControls({
           ) : null}
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {steps.map((step, index) => (
-              <div key={step.label} className="rounded-2xl border border-border bg-white p-4">
+              <div key={step.label} className="rounded-2xl border border-border bg-card p-4">
                 <div className="flex items-center gap-2 text-sm">
                   {step.done ? <CheckCircle2 className="h-4 w-4 text-emerald-600" /> : <Circle className="h-4 w-4 text-slate-300" />}
                   <span className="font-medium">Step {index + 1}</span>
@@ -172,7 +172,7 @@ export function DashboardControls({
             <button
               type="button"
               onClick={() => chooseMode("sample")}
-              className={`rounded-3xl border p-5 text-left transition ${workspaceMode === "sample" ? "border-primary bg-primary/5" : "border-border bg-white"}`}
+              className={`rounded-3xl border p-5 text-left transition ${workspaceMode === "sample" ? "border-primary bg-primary/5" : "border-border bg-card"}`}
             >
               <div className="flex items-center gap-2 text-primary">
                 <Sparkles className="h-4 w-4" />
@@ -186,7 +186,7 @@ export function DashboardControls({
             <button
               type="button"
               onClick={() => chooseMode("real")}
-              className={`rounded-3xl border p-5 text-left transition ${workspaceMode === "real" ? "border-primary bg-primary/5" : "border-border bg-white"}`}
+              className={`rounded-3xl border p-5 text-left transition ${workspaceMode === "real" ? "border-primary bg-primary/5" : "border-border bg-card"}`}
             >
               <div className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Real Workspace</div>
               <h3 className="mt-3 text-xl font-semibold">Connect GitHub and AWS to scan your actual environment.</h3>
@@ -283,7 +283,7 @@ export function DashboardControls({
             </CardHeader>
             <CardContent className="space-y-4">
               {topFindings.map((finding) => (
-                <Link key={finding.id} href={`/findings/${finding.id}`} className="block rounded-2xl border border-border bg-white p-4 transition hover:border-primary">
+                <Link key={finding.id} href={`/findings/${finding.id}`} className="block rounded-2xl border border-border bg-card p-4 transition hover:border-primary">
                   <div className="flex items-center justify-between gap-3">
                     <p className="font-medium">{finding.title}</p>
                     <Badge variant={finding.severity as "critical" | "high" | "medium" | "low"}>{finding.severity}</Badge>
@@ -299,7 +299,7 @@ export function DashboardControls({
               <CardDescription>Generated from the finding and evidence so the response is honest, concise, and useful.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 text-sm text-muted-foreground">
-              <p className="rounded-2xl border border-border bg-white p-4">
+              <p className="rounded-2xl border border-border bg-card p-4">
                 "We identified a small number of privileged cloud users without MFA and are remediating those accounts first. Administrative access is being reduced and protected with MFA-enforced policies, with rollout tracked as part of our access-control hardening plan."
               </p>
               <div>
@@ -310,7 +310,7 @@ export function DashboardControls({
                   ))}
                 </div>
               </div>
-              <div className="rounded-2xl border border-border bg-white p-4">
+              <div className="rounded-2xl border border-border bg-card p-4">
                 <p className="font-medium text-foreground">Suggested next step</p>
                 <p className="mt-2 text-muted-foreground">
                   Open the critical finding first, confirm why the buyer cares, then use the generated answer as the starting point for your security questionnaire response.
@@ -340,7 +340,7 @@ export function DashboardControls({
                   <th className="px-4 py-3 font-medium">Risk</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border bg-white">
+              <tbody className="divide-y divide-border bg-card">
                 {sampleGithubRepos.map((repo) => (
                   <tr key={repo.name}>
                     <td className="px-4 py-3">{repo.name}</td>
