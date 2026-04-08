@@ -12,6 +12,7 @@ create table if not exists public.clients (
   id uuid primary key default gen_random_uuid(),
   company_name text not null,
   tier text default 'readiness',
+  owner_id uuid references auth.users(id),
   created_at timestamptz default now()
 );
 
@@ -60,13 +61,14 @@ create policy "waitlist_insert_open" on public.waitlist
 for insert with check (true);
 
 create policy "clients_select_own" on public.clients
-for select using (auth.uid() is not null);
+for select using (owner_id = auth.uid());
 
 create policy "evidence_select_own_client" on public.evidence_artifacts
 for select using (
   exists (
     select 1 from public.clients
     where public.clients.id = evidence_artifacts.client_id
+      and public.clients.owner_id = auth.uid()
   )
 );
 
@@ -75,6 +77,7 @@ for select using (
   exists (
     select 1 from public.clients
     where public.clients.id = gap_findings.client_id
+      and public.clients.owner_id = auth.uid()
   )
 );
 
@@ -83,6 +86,8 @@ for select using (
   exists (
     select 1
     from public.gap_findings
+    join public.clients on public.clients.id = public.gap_findings.client_id
     where public.gap_findings.id = remediation_log.gap_id
+      and public.clients.owner_id = auth.uid()
   )
 );

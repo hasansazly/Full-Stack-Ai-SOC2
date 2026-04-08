@@ -33,6 +33,7 @@ export type Database = {
           name: string | null;
           company_name?: string | null;
           tier?: string | null;
+          owner_id?: string | null;
           created_at: string;
           user_id: string | null;
         };
@@ -41,6 +42,7 @@ export type Database = {
           name?: string | null;
           company_name?: string | null;
           tier?: string | null;
+          owner_id?: string | null;
           created_at?: string;
           user_id?: string | null;
         };

@@ -1,4 +1,4 @@
-import { ArrowRight, Bot, CheckCheck, FileText, ShieldCheck, TimerReset, TriangleAlert } from "lucide-react";
+import { ArrowRight, Bot, CheckCheck, ShieldCheck, TimerReset, TriangleAlert } from "lucide-react";
 
 import { WaitlistForm } from "@/components/waitlist-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -64,7 +64,7 @@ export default function LandingPage() {
             <p className="mb-4 inline-flex rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-300">
               Agentic SOC 2 Platform
             </p>
-            <h1 className="max-w-4xl font-display text-5xl leading-tight text-foreground md:text-7xl">
+            <h1 className="max-w-4xl font-display text-5xl leading-tight text-white md:text-7xl">
               Close Your Enterprise Deal. SOC 2 in 6 Weeks, Guaranteed.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-slate-300">
