@@ -137,6 +137,17 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <section className="border-y border-white/70 bg-white/50">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5 text-sm text-muted-foreground">
+          <p className="font-medium text-foreground">Designed with early design partners selling into security-conscious enterprise buyers.</p>
+          <div className="flex flex-wrap gap-5">
+            <span>Founder-led B2B SaaS</span>
+            <span>Enterprise pilot readiness</span>
+            <span>Buyer questionnaire response workflows</span>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8 max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">Who This Is For</p>

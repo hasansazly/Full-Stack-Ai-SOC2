@@ -50,6 +50,17 @@ export function SiteFooter() {
           </Link>
         </div>
       </div>
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 border-t border-border px-6 py-4 text-sm text-muted-foreground">
+        <p>Talosly is building the trust readiness layer for startup-to-enterprise sales.</p>
+        <div className="flex flex-wrap gap-4">
+          <Link href="/privacy" className="hover:text-primary">
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="hover:text-primary">
+            Terms
+          </Link>
+        </div>
+      </div>
     </footer>
   );
 }

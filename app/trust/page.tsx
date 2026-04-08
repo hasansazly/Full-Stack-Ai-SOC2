@@ -57,6 +57,7 @@ export default function TrustPage() {
           <CardContent className="space-y-4 text-sm text-muted-foreground">
             <p>Use the least access needed to collect evidence.</p>
             <p>Make findings traceable back to specific evidence artifacts.</p>
+            <p>Keep customer workspaces isolated so each company sees only its own data and findings.</p>
             <p>Keep generated outputs honest, concise, and safe to share with buyer security teams.</p>
             <p>Prefer explicit user approval before any environment-changing action.</p>
           </CardContent>
