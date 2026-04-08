@@ -1,28 +1,16 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 
 import "@/app/globals.css";
-import { AnalyticsProvider } from "@/components/analytics-provider";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   title: "Talosly",
-  description: "Compliance gap detection for startup security reviews."
+  description: "SOC 2 compliance, automated."
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <Suspense fallback={null}>
-          <AnalyticsProvider>
-            <SiteHeader />
-            {children}
-            <SiteFooter />
-          </AnalyticsProvider>
-        </Suspense>
-      </body>
+      <body className="min-h-screen bg-[#0a0a0a] font-sans text-white">{children}</body>
     </html>
   );
 }
