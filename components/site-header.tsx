@@ -21,6 +21,9 @@ export function SiteHeader() {
           <Link href="/trust" className="hover:text-primary">
             Trust
           </Link>
+          <Link href="/security" className="hover:text-primary">
+            Security
+          </Link>
           <Link href="/dashboard" className="hover:text-primary">
             Dashboard
           </Link>

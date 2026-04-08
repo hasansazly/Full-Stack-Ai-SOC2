@@ -1,4 +1,4 @@
-import { ArrowRight, BadgeAlert, CheckCheck, FileText, GitPullRequestArrow, LockKeyhole, ShieldCheck, TimerReset } from "lucide-react";
+import { ArrowRight, BadgeAlert, CheckCheck, FileText, ShieldCheck, TimerReset } from "lucide-react";
 
 import { LeadCaptureForm } from "@/components/lead-capture-form";
 import { TrackedLinkButton } from "@/components/tracked-link-button";
@@ -72,13 +72,13 @@ export default function LandingPage() {
         <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:py-28">
           <div className="max-w-3xl">
             <p className="mb-4 inline-flex rounded-full border border-primary/20 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
-              Enterprise Deal Readiness
+              Trust Infrastructure For Enterprise Sales
             </p>
             <h1 className="max-w-4xl font-display text-5xl leading-tight text-foreground md:text-7xl">
-              Close enterprise deals faster by fixing the security gaps buyers actually care about.
+              The trust readiness layer for startups selling into enterprise.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-              ClearAudit helps founders and CTOs spot the AWS and GitHub issues that stall buyer security reviews, then turns those findings into remediation guidance, questionnaire answers, and policy drafts.
+              Talosly helps startups close enterprise deals faster by finding, fixing, and proving the security controls buyer reviews care about, starting with AWS and GitHub and growing into a machine-readable system of record for trust evidence.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <TrackedLinkButton href="/book" event="homepage_cta_primary_clicked" size="lg">
@@ -98,6 +98,12 @@ export default function LandingPage() {
               <p className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> AWS + GitHub evidence</p>
               <p className="flex items-center gap-2"><TimerReset className="h-4 w-4 text-primary" /> Sample mode in minutes</p>
               <p className="flex items-center gap-2"><FileText className="h-4 w-4 text-primary" /> Questionnaire-ready outputs</p>
+            </div>
+            <div className="mt-10 rounded-3xl border border-border bg-white/70 p-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Early Design Partners</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Working with founder-led B2B SaaS teams closing their first serious enterprise buyers and needing a credible trust posture before a full compliance program exists.
+              </p>
             </div>
           </div>
 

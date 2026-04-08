@@ -1,11 +1,13 @@
 import { notFound } from "next/navigation";
 
+import { ExportPacketButton } from "@/components/export-packet-button";
 import { FindingActions } from "@/components/finding-actions";
 import { FindingViewTracker } from "@/components/finding-view-tracker";
 import { QuestionnaireAnswerPreview } from "@/components/questionnaire-answer-preview";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getFindingById } from "@/lib/data";
+import { sampleFindingOwners } from "@/lib/demo-data";
 import { generateQuestionnaireAnswer } from "@/lib/questionnaire";
 
 export default async function FindingDetailPage({ params }: { params: { id: string } }) {
@@ -27,6 +29,13 @@ export default async function FindingDetailPage({ params }: { params: { id: stri
       : "Do you require multi-factor authentication for privileged cloud access?"
   );
   const initialAnswer = `Current State\n${answer.currentState}\n\nGap Identified\n${answer.gapIdentified}\n\nRemediation Roadmap\n${answer.remediationRoadmap}\n\nTimeline Estimate\n${answer.timelineEstimate}`;
+  const findingMeta =
+    sampleFindingOwners[(finding.id as keyof typeof sampleFindingOwners) ?? "demo-finding-1"] ?? {
+      owner: "Security lead",
+      status: "planned",
+      dueDate: "2026-04-15",
+      compensatingControl: "Manual review and restricted access are being used temporarily while the formal control is implemented."
+    };
 
   return (
     <main className="mx-auto max-w-5xl space-y-8 px-6 py-12">
@@ -78,8 +87,30 @@ export default async function FindingDetailPage({ params }: { params: { id: stri
           <CardHeader>
             <CardTitle>Action Center</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-6">
+            <div className="rounded-3xl border border-border bg-muted/40 p-4 text-sm">
+              <p className="font-medium text-foreground">Owner and status</p>
+              <div className="mt-3 grid gap-3 md:grid-cols-3">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Owner</p>
+                  <p className="mt-1 text-muted-foreground">{findingMeta.owner}</p>
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Status</p>
+                  <p className="mt-1 capitalize text-muted-foreground">{findingMeta.status}</p>
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Target date</p>
+                  <p className="mt-1 text-muted-foreground">{findingMeta.dueDate}</p>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-3xl border border-border bg-white p-4 text-sm text-muted-foreground">
+              <p className="font-medium text-foreground">Compensating control language</p>
+              <p className="mt-2">{findingMeta.compensatingControl}</p>
+            </div>
             <FindingActions findingId={finding.id ?? ""} initialAnswer={initialAnswer} />
+            <ExportPacketButton label="Export packet with this finding" />
           </CardContent>
         </Card>
       </div>

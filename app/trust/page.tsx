@@ -47,6 +47,7 @@ export default function TrustPage() {
             <p><span className="font-medium text-foreground">AWS:</span> Read IAM users, policies, groups, MFA devices, and credential-report data needed to evaluate logical-access controls.</p>
             <p><span className="font-medium text-foreground">GitHub:</span> Read repositories, branch protection settings, status-check requirements, and CODEOWNERS presence.</p>
             <p><span className="font-medium text-foreground">Writes:</span> None by default in this MVP. Future remediation actions should be explicit, reviewable, and opt-in.</p>
+            <p><span className="font-medium text-foreground">Approval model:</span> Customer approval is required before any action-taking remediation workflow should run against a live environment.</p>
           </CardContent>
         </Card>
         <Card>

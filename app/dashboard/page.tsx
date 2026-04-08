@@ -1,8 +1,10 @@
 import Link from "next/link";
 
+import { ExportPacketButton } from "@/components/export-packet-button";
 import { DashboardControls } from "@/components/dashboard-controls";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getEvidenceArtifacts } from "@/lib/data";
+import { sampleReadinessPacket, sampleScanHistory, sampleWorkspaceSummary } from "@/lib/demo-data";
 import { formatDate, shortChecksum } from "@/lib/utils";
 
 export default async function DashboardPage({
@@ -29,6 +31,91 @@ export default async function DashboardPage({
       </div>
 
       <DashboardControls clientId={null} initialMode={initialMode ?? null} />
+
+      <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+        <Card className="grain">
+          <CardHeader>
+            <CardTitle>Trust Mission Control</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4 md:grid-cols-3">
+            <div className="rounded-2xl border border-border bg-white p-4">
+              <p className="text-sm text-muted-foreground">Readiness score</p>
+              <p className="mt-2 text-3xl font-semibold">{sampleWorkspaceSummary.readinessScore}</p>
+              <p className="mt-2 text-sm text-muted-foreground">Buyer-facing posture is improving, but critical blockers remain.</p>
+            </div>
+            <div className="rounded-2xl border border-border bg-white p-4">
+              <p className="text-sm text-muted-foreground">Open blockers</p>
+              <p className="mt-2 text-3xl font-semibold">{sampleWorkspaceSummary.blockersOpen}</p>
+              <p className="mt-2 text-sm text-muted-foreground">Most urgent: privileged access and peer-review enforcement.</p>
+            </div>
+            <div className="rounded-2xl border border-border bg-white p-4">
+              <p className="text-sm text-muted-foreground">Buyer deadline</p>
+              <p className="mt-2 text-3xl font-semibold">Apr 18</p>
+              <p className="mt-2 text-sm text-muted-foreground">Use the remediation roadmap to close the highest-risk gaps first.</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Readiness packet</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-muted-foreground">
+            <p className="font-medium text-foreground">{sampleReadinessPacket.title}</p>
+            <p>Last updated {formatDate(sampleReadinessPacket.updatedAt)}</p>
+            <div className="space-y-2">
+              {sampleReadinessPacket.sections.map((section) => (
+                <p key={section}>- {section}</p>
+              ))}
+            </div>
+            <ExportPacketButton />
+          </CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+        <Card>
+          <CardHeader>
+            <CardTitle>Scan history</CardTitle>
+          </CardHeader>
+          <CardContent className="overflow-hidden rounded-3xl border border-border">
+            <table className="min-w-full divide-y divide-border text-sm">
+              <thead className="bg-muted/50 text-left text-muted-foreground">
+                <tr>
+                  <th className="px-4 py-3 font-medium">Started</th>
+                  <th className="px-4 py-3 font-medium">Sources</th>
+                  <th className="px-4 py-3 font-medium">Status</th>
+                  <th className="px-4 py-3 font-medium">Blockers</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border bg-white">
+                {sampleScanHistory.map((scan) => (
+                  <tr key={scan.id}>
+                    <td className="px-4 py-3">{formatDate(scan.startedAt)}</td>
+                    <td className="px-4 py-3">{scan.sources.join(" + ")}</td>
+                    <td className="px-4 py-3 capitalize">{scan.status}</td>
+                    <td className="px-4 py-3">{scan.blockersFound}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Trust model</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-muted-foreground">
+            <p><span className="font-medium text-foreground">Evidence first:</span> every blocker should tie back to specific AWS or GitHub evidence.</p>
+            <p><span className="font-medium text-foreground">Approval required:</span> no remediation action should be taken without customer sign-off.</p>
+            <p><span className="font-medium text-foreground">System of record:</span> the long-term product direction is a machine-readable trust layer, not a pile of disconnected audit tasks.</p>
+            <Link href="/security" className="font-semibold text-primary">
+              Review security model
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
 
       <Card>
         <CardHeader>

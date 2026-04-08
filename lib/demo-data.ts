@@ -105,6 +105,9 @@ export const sampleGithubRepos: GithubRepoSummary[] = [
 export const sampleWorkspaceSummary = {
   companyName: "Northstar AI",
   dealStage: "Pilot blocked by buyer questionnaire",
+  readinessScore: 62,
+  blockersOpen: 5,
+  buyerDeadline: "2026-04-18",
   totalUsers: sampleAwsUsers.length,
   adminUsers: sampleAwsUsers.filter((user) => user.isAdmin).length,
   usersWithoutMFA: sampleAwsUsers.filter((user) => !user.hasMFA).length,
@@ -112,6 +115,53 @@ export const sampleWorkspaceSummary = {
   totalRepos: sampleGithubRepos.length,
   reposAtRisk: sampleGithubRepos.filter((repo) => repo.riskLevel !== "low").length
 };
+
+export const sampleScanHistory = [
+  {
+    id: "scan-2026-04-07-1",
+    startedAt: "2026-04-07T14:02:00Z",
+    status: "completed",
+    blockersFound: 5,
+    sources: ["AWS IAM", "GitHub"],
+    mode: "sample"
+  },
+  {
+    id: "scan-2026-04-05-1",
+    startedAt: "2026-04-05T16:22:00Z",
+    status: "completed",
+    blockersFound: 6,
+    sources: ["AWS IAM", "GitHub"],
+    mode: "sample"
+  },
+  {
+    id: "scan-2026-04-02-1",
+    startedAt: "2026-04-02T11:48:00Z",
+    status: "completed",
+    blockersFound: 7,
+    sources: ["AWS IAM"],
+    mode: "sample"
+  }
+] as const;
+
+export const sampleReadinessPacket = {
+  title: "Northstar AI Buyer Readiness Packet",
+  sections: [
+    "Executive readiness summary",
+    "Top blockers and remediation roadmap",
+    "Evidence artifact index",
+    "Questionnaire answer drafts",
+    "Policy drafts and operating controls"
+  ],
+  updatedAt: "2026-04-07T14:12:00Z"
+};
+
+export const sampleFindingOwners = {
+  "demo-finding-1": { owner: "CTO", status: "in progress", dueDate: "2026-04-10", compensatingControl: "Privileged actions are currently limited to a small named group while MFA rollout is being completed." },
+  "demo-finding-2": { owner: "Founding Engineer", status: "planned", dueDate: "2026-04-15", compensatingControl: "Administrative use is reviewed informally today, but not yet enforced through short-lived privileged roles." },
+  "demo-finding-3": { owner: "Engineering Manager", status: "in progress", dueDate: "2026-04-09", compensatingControl: "Critical changes are often reviewed in practice, but enforcement is not yet guaranteed by branch protection." },
+  "demo-finding-4": { owner: "Platform Lead", status: "planned", dueDate: "2026-04-11", compensatingControl: "The infrastructure repo has a small maintainer set and deployment access is restricted while branch rules are tightened." },
+  "demo-finding-5": { owner: "VP Engineering", status: "planned", dueDate: "2026-04-16", compensatingControl: "Reviewer assignment is happening manually until CODEOWNERS coverage is implemented on all critical repositories." }
+} as const;
 
 export const demoEvidence = [
   {

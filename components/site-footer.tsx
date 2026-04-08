@@ -18,6 +18,9 @@ export function SiteFooter() {
           <Link href="/trust" className="block text-muted-foreground hover:text-primary">
             Trust
           </Link>
+          <Link href="/security" className="block text-muted-foreground hover:text-primary">
+            Security
+          </Link>
           <Link href="/dashboard?mode=sample" className="block text-muted-foreground hover:text-primary">
             Sample Workspace
           </Link>
