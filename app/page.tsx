@@ -53,7 +53,7 @@ const pricing = [
 ];
 
 const competitorRows = [
-  ["Flags compliance gaps", "Yes", "Yes", "Yes", "Yes"],
+  ["Identifies compliance gaps", "Yes", "Yes", "Yes", "Yes"],
   ["Auto-remediates cloud and GitHub controls", "Yes", "No", "No", "No"],
   ["Generates exact CLI/API fix", "Yes", "No", "No", "Partial"],
   ["Signs report path in one platform", "Yes", "No", "No", "No"]
