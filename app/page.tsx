@@ -1,349 +1,270 @@
-import { ArrowRight, BadgeAlert, CheckCheck, FileText, ShieldCheck, TimerReset } from "lucide-react";
+import { ArrowRight, Bot, CheckCheck, FileText, ShieldCheck, TimerReset, TriangleAlert } from "lucide-react";
 
-import { LeadCaptureForm } from "@/components/lead-capture-form";
-import { TrackedLinkButton } from "@/components/tracked-link-button";
+import { WaitlistForm } from "@/components/waitlist-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
-const blockers = [
-  "Admin users without MFA",
-  "Too many standing AWS admins",
-  "Main branch without required approvals",
-  "Direct pushes to production branches",
-  "Missing CODEOWNERS for critical paths",
-  "Weak evidence for buyer questionnaires"
-];
-
-const workflow = [
+const problemCards = [
   {
-    title: "Connect AWS and GitHub",
-    description: "Or start with the sample workspace if you want to see the product before granting access."
+    title: "The blocker is real, not paperwork theater",
+    body: "Your buyer is asking whether privileged access is protected, whether production changes are reviewed, and whether your controls actually exist."
   },
   {
-    title: "Run one scan",
-    description: "We collect buyer-relevant evidence, highlight the highest-risk blockers, and rank what matters first."
+    title: "You need language you can say honestly",
+    body: "If the answer is 'not yet,' Talosly tells you exactly what is missing, what can be remediated now, and what compensating control language is defensible."
   },
   {
-    title: "Respond and remediate",
-    description: "Generate an honest questionnaire answer, a remediation plan, and policy drafts from the same evidence set."
+    title: "Every day costs you the deal",
+    body: "A $200k contract can disappear while your team is still trying to figure out AWS IAM, GitHub branch protection, and policy evidence."
   }
 ];
 
-const outcomes = [
+const howItWorks = [
+  "Collect Evidence",
+  "Analyze Gaps",
+  "Auto-Remediate",
+  "Generate Walkthrough",
+  "CPA Signs Report"
+];
+
+const pricing = [
   {
-    title: "Prioritized findings",
-    description: "See what will actually stall a security review, not a generic wall of alerts.",
-    icon: BadgeAlert
+    tier: "Tier 1",
+    name: "Readiness SaaS",
+    price: "$500/mo",
+    includes: "Dashboard, gap reports, policy templates"
   },
   {
-    title: "Evidence-backed answers",
-    description: "Generate concise questionnaire responses grounded in the controls you do and do not have.",
-    icon: FileText
+    tier: "Tier 2",
+    name: "Managed Compliance",
+    price: "$5,000/mo",
+    includes: "Auto-Remediator, agent monitoring, evidence workflows"
   },
   {
-    title: "Remediation next steps",
-    description: "Know what to fix this week versus what can wait until a broader compliance sprint.",
-    icon: CheckCheck
+    tier: "Tier 3",
+    name: "Guaranteed Audit",
+    price: "$30,000 flat",
+    includes: "Full agentic audit, remediation execution, CPA-signed SOC 2"
   }
 ];
 
-const faqs = [
-  {
-    question: "Do I need SOC 2 before using this?",
-    answer: "No. Talosly is built for the phase before SOC 2, when a real buyer is already asking security questions and you need to know what matters first."
-  },
-  {
-    question: "Can I try it without connecting credentials?",
-    answer: "Yes. The sample workspace walks through realistic AWS and GitHub blockers so a founder can understand the product in minutes."
-  },
-  {
-    question: "Will it automatically change my environment?",
-    answer: "No. The current MVP is focused on evidence collection, prioritization, and guidance. Remediation should happen with your approval."
-  },
-  {
-    question: "Who is this best for?",
-    answer: "Founder-led and lean engineering teams selling B2B SaaS into enterprise buyers, especially when procurement or security review is suddenly on the critical path."
-  }
-];
-
-const proofPoints = [
-  {
-    quote:
-      "A pilot security review was slipping because our answers were too vague. Talosly made the actual blockers obvious and gave us language we could send.",
-    byline: "Design partner, founder-led B2B SaaS"
-  },
-  {
-    quote:
-      "The value is not another compliance checklist. It is knowing exactly which control gaps a buyer is going to challenge and what to fix first.",
-    byline: "Early user feedback"
-  }
+const comparison = [
+  ["Finds gaps", "Yes", "Yes", "Yes", "Yes"],
+  ["Auto-remediates AWS + GitHub controls", "Yes", "No", "No", "No"],
+  ["Generates exact CLI / API fixes", "Yes", "No", "No", "Partial"],
+  ["Produces audit walkthrough and signed report path", "Yes", "No", "No", "No"]
 ];
 
 export default function LandingPage() {
   return (
-    <main>
-      <section className="grain relative overflow-hidden">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-end lg:py-28">
+    <main className="bg-[#0a0a0a] text-white">
+      <section className="relative overflow-hidden border-b border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.22),transparent_30%),radial-gradient(circle_at_top_right,rgba(79,70,229,0.15),transparent_25%),linear-gradient(180deg,#09090b,#0a0a0a)]">
+        <div className="mx-auto max-w-7xl px-6 py-24 lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:py-32">
           <div className="max-w-3xl">
-            <p className="mb-4 inline-flex rounded-full border border-primary/20 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary">
-              Trust Infrastructure For Enterprise Sales
+            <p className="mb-4 inline-flex rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-indigo-300">
+              Agentic SOC 2 Platform
             </p>
             <h1 className="max-w-4xl font-display text-5xl leading-tight text-foreground md:text-7xl">
-              The trust readiness layer for startups selling into enterprise.
+              Close Your Enterprise Deal. SOC 2 in 6 Weeks, Guaranteed.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-              Talosly helps startups close enterprise deals faster by finding, fixing, and proving the security controls buyer reviews care about, starting with AWS and GitHub and growing into a machine-readable system of record for trust evidence.
+            <p className="mt-6 max-w-2xl text-lg text-slate-300">
+              The only compliance platform that doesn't just find your gaps - it fixes them automatically.
             </p>
-            <p className="mt-4 max-w-2xl text-base font-medium text-foreground">
-              If enterprise deals are stalling on buyer security reviews, Talosly is built for that moment.
+            <p className="mt-4 max-w-2xl text-base font-medium text-slate-100">
+              Talosly agents collect evidence, analyze Trust Services Criteria gaps, generate exact AWS CLI and GitHub API fixes, and move you toward a CPA-signed SOC 2 report in one system.
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <TrackedLinkButton href="/book" event="homepage_cta_primary_clicked" size="lg">
-                Book a 20-minute readiness review
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </TrackedLinkButton>
-              <TrackedLinkButton
-                href="/dashboard?mode=sample"
-                event="homepage_cta_secondary_clicked"
-                variant="outline"
-                size="lg"
-              >
-                Run a free AWS + GitHub scan
-              </TrackedLinkButton>
+            <div className="mt-10">
+              <WaitlistForm />
             </div>
-            <div className="mt-8 grid gap-3 text-sm text-muted-foreground sm:grid-cols-3">
-              <p className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> AWS + GitHub evidence</p>
-              <p className="flex items-center gap-2"><TimerReset className="h-4 w-4 text-primary" /> Sample mode in minutes</p>
-              <p className="flex items-center gap-2"><FileText className="h-4 w-4 text-primary" /> Questionnaire-ready outputs</p>
-            </div>
-            <div className="mt-10 rounded-3xl border border-border bg-white/70 p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Early Design Partners</p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Working with founder-led B2B SaaS teams closing their first serious enterprise buyers and needing a credible trust posture before a full compliance program exists.
-              </p>
+            <div className="mt-8 flex flex-wrap gap-6 text-sm text-slate-300">
+              <p className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-indigo-400" /> Evidence collected automatically</p>
+              <p className="flex items-center gap-2"><Bot className="h-4 w-4 text-indigo-400" /> Agents generate exact fixes</p>
+              <p className="flex items-center gap-2"><TimerReset className="h-4 w-4 text-indigo-400" /> 6-week audit path</p>
             </div>
           </div>
 
-          <div className="w-full rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-soft">
-            <div className="space-y-5">
-              <div className="rounded-3xl bg-secondary p-5">
-                <p className="text-sm text-secondary-foreground">Sample buyer-readiness scan</p>
-                <p className="mt-2 text-3xl font-semibold text-secondary-foreground">5 blockers found</p>
-                <p className="mt-2 text-sm text-secondary-foreground/80">
-                  2 critical issues are likely to trigger follow-up questions from an enterprise security team.
+          <div className="mt-12 lg:mt-0">
+            <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur">
+              <div className="rounded-3xl border border-indigo-500/20 bg-indigo-500/10 p-5">
+                <p className="text-sm text-indigo-200">Enterprise deal at risk</p>
+                <p className="mt-2 text-3xl font-semibold text-white">$200k ARR blocked</p>
+                <p className="mt-2 text-sm text-indigo-100/80">
+                  Buyer security review requires proof of CC6.1, CC6.2, and CC8.1 controls before procurement will sign.
                 </p>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-3xl border border-border p-4">
-                  <p className="text-sm text-muted-foreground">Privileged AWS users without MFA</p>
-                  <p className="mt-1 text-2xl font-semibold">2</p>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-3xl border border-white/10 bg-black/20 p-4">
+                  <p className="text-sm text-slate-400">Critical gaps found</p>
+                  <p className="mt-1 text-2xl font-semibold text-white">5</p>
                 </div>
-                <div className="rounded-3xl border border-border p-4">
-                  <p className="text-sm text-muted-foreground">Repos at risk</p>
-                  <p className="mt-1 text-2xl font-semibold">4</p>
+                <div className="rounded-3xl border border-white/10 bg-black/20 p-4">
+                  <p className="text-sm text-slate-400">Auto-remediable</p>
+                  <p className="mt-1 text-2xl font-semibold text-white">2</p>
                 </div>
               </div>
-              <div className="rounded-3xl border border-border p-5">
-                <p className="text-sm font-medium text-foreground">Questionnaire answer preview</p>
-                <p className="mt-3 text-sm text-muted-foreground">
-                  "We enforce pull-request based changes for production systems on most repositories. We identified exceptions where peer review and code ownership were not consistently required, and we are standardizing branch protection and CODEOWNERS enforcement across all production repositories this sprint."
+              <div className="mt-4 rounded-3xl border border-white/10 bg-black/20 p-5">
+                <p className="text-sm font-medium text-white">Agent remediation preview</p>
+                <pre className="mt-3 overflow-auto whitespace-pre-wrap rounded-2xl bg-black/40 p-4 text-xs text-slate-300">
+aws iam create-policy --policy-name RequireMFA --policy-document file://require-mfa-policy.json
+aws iam attach-group-policy --group-name Admins --policy-arn arn:aws:iam::ACCOUNT_ID:policy/RequireMFA
+                </pre>
+              </div>
+              <div className="mt-4 rounded-3xl border border-white/10 bg-black/20 p-5">
+                <p className="text-sm font-medium text-white">Questionnaire draft generated</p>
+                <p className="mt-3 text-sm text-slate-300">
+                  We identified privileged cloud accounts without MFA and default-branch controls that were not consistently enforced. These gaps are now being remediated through MFA enforcement and branch protection policies, with evidence collection and validation tracked in Talosly.
                 </p>
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      <section className="border-y border-white/70 bg-white/50">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5 text-sm text-muted-foreground">
-          <p className="font-medium text-foreground">Designed with early design partners selling into security-conscious enterprise buyers.</p>
-          <div className="flex flex-wrap gap-5">
-            <span>Founder-led B2B SaaS</span>
-            <span>Enterprise pilot readiness</span>
-            <span>Buyer questionnaire response workflows</span>
-          </div>
+      <section className="border-y border-white/10 bg-white/[0.02]">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-5 text-sm text-slate-400">
+          <span>Backed by design partners with live enterprise deals on the line</span>
+          <span>Founder-led B2B SaaS</span>
+          <span>Security questionnaire bottlenecks</span>
+          <span>Audit path in weeks, not quarters</span>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-12">
-        <div className="mb-8 max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">Early Proof</p>
-          <h2 className="mt-2 font-display text-4xl">Built around live buyer-review friction, not abstract compliance theory.</h2>
-        </div>
-        <div className="grid gap-6 lg:grid-cols-2">
-          {proofPoints.map((item) => (
-            <Card key={item.quote} className="grain">
-              <CardContent className="p-6">
-                <p className="text-lg leading-8 text-foreground">“{item.quote}”</p>
-                <p className="mt-4 text-sm text-muted-foreground">{item.byline}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8 max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">Who This Is For</p>
-          <h2 className="mt-2 font-display text-4xl">Built for the founder or CTO suddenly carrying the security review.</h2>
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <div className="mb-10 max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-indigo-300">The Problem</p>
+          <h2 className="mt-2 font-display text-4xl text-white">Your $200k deal is being held hostage by a security questionnaire.</h2>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
-          {[
-            "Your team is selling into enterprise for the first time.",
-            "A buyer questionnaire or vendor review is now on the critical path.",
-            "You use AWS and GitHub, but do not have a full security team yet."
-          ].map((item) => (
-            <Card key={item}>
-              <CardContent className="p-6 text-sm text-muted-foreground">{item}</CardContent>
+          {problemCards.map((card) => (
+            <Card key={card.title} className="border-white/10 bg-white/5">
+              <CardHeader>
+                <CardTitle className="text-white">{card.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-slate-300">{card.body}</CardContent>
             </Card>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-6">
-        <div className="mb-8 max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">What Blockers We Find</p>
-          <h2 className="mt-2 font-display text-4xl">The controls that actually stall buyer reviews.</h2>
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <div className="mb-10 max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-indigo-300">How It Works</p>
+          <h2 className="mt-2 font-display text-4xl text-white">Five agents from raw evidence to signed report.</h2>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {blockers.map((blocker) => (
-            <div key={blocker} className="rounded-3xl border border-border bg-white px-5 py-4 text-sm shadow-soft">
-              {blocker}
+        <div className="grid gap-6 md:grid-cols-5">
+          {howItWorks.map((step, index) => (
+            <Card key={step} className="border-white/10 bg-white/5">
+              <CardHeader>
+                <p className="text-xs uppercase tracking-[0.2em] text-indigo-300">Step {index + 1}</p>
+                <CardTitle className="text-white">{step}</CardTitle>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <div className="mb-10 max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-indigo-300">Pricing</p>
+          <h2 className="mt-2 font-display text-4xl text-white">Pick the level of automation you need.</h2>
+        </div>
+        <div className="overflow-hidden rounded-3xl border border-white/10">
+          <table className="min-w-full divide-y divide-white/10 text-sm">
+            <thead className="bg-white/5 text-left text-slate-400">
+              <tr>
+                <th className="px-4 py-4 font-medium">Tier</th>
+                <th className="px-4 py-4 font-medium">Name</th>
+                <th className="px-4 py-4 font-medium">Price</th>
+                <th className="px-4 py-4 font-medium">What's Included</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/10 bg-black/20">
+              {pricing.map((row) => (
+                <tr key={row.name}>
+                  <td className="px-4 py-4 text-slate-300">{row.tier}</td>
+                  <td className="px-4 py-4 font-medium text-white">{row.name}</td>
+                  <td className="px-4 py-4 text-slate-300">{row.price}</td>
+                  <td className="px-4 py-4 text-slate-300">{row.includes}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section className="mx-auto grid max-w-7xl gap-6 px-6 py-20 lg:grid-cols-[1fr_1fr]">
+        <Card className="border-white/10 bg-white/5">
+          <CardHeader>
+            <div className="flex items-center gap-2 text-indigo-300">
+              <TriangleAlert className="h-4 w-4" />
+              <span className="text-sm font-semibold uppercase tracking-[0.2em]">Revenue Math</span>
             </div>
-          ))}
+            <CardTitle className="text-white">A $25k audit fee is not your real cost.</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-slate-300">
+            <p>The visible line item is the audit. The hidden cost is founder distraction, engineering interruptions, delayed procurement, and a slowed sales cycle.</p>
+            <p><span className="font-semibold text-white">$25k fee</span> vs <span className="font-semibold text-white">$160k hidden cost</span> if your team spends months collecting evidence manually and remediating reactively.</p>
+          </CardContent>
+        </Card>
+        <Card className="border-white/10 bg-white/5">
+          <CardHeader>
+            <div className="flex items-center gap-2 text-indigo-300">
+              <CheckCheck className="h-4 w-4" />
+              <span className="text-sm font-semibold uppercase tracking-[0.2em]">Why Talosly</span>
+            </div>
+            <CardTitle className="text-white">Competitors flag gaps. Talosly closes them.</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3 text-slate-300">
+            <p>Vanta and Drata can tell you a branch is unprotected. Talosly generates the exact GitHub API call to fix it, stores the evidence, and keeps the audit trail.</p>
+            <p>This is not another compliance dashboard. It is an agentic operating layer for trust readiness.</p>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-20">
+        <div className="mb-10 max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-indigo-300">Competitive Comparison</p>
+          <h2 className="mt-2 font-display text-4xl text-white">Talosly vs Vanta vs Drata vs Comp.ai</h2>
+        </div>
+        <div className="overflow-hidden rounded-3xl border border-white/10">
+          <table className="min-w-full divide-y divide-white/10 text-sm">
+            <thead className="bg-white/5 text-left text-slate-400">
+              <tr>
+                <th className="px-4 py-4 font-medium">Capability</th>
+                <th className="px-4 py-4 font-medium">Talosly</th>
+                <th className="px-4 py-4 font-medium">Vanta</th>
+                <th className="px-4 py-4 font-medium">Drata</th>
+                <th className="px-4 py-4 font-medium">Comp.ai</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/10 bg-black/20">
+              {comparison.map((row) => (
+                <tr key={row[0]}>
+                  <td className="px-4 py-4 text-white">{row[0]}</td>
+                  <td className="px-4 py-4 text-slate-300">{row[1]}</td>
+                  <td className="px-4 py-4 text-slate-300">{row[2]}</td>
+                  <td className="px-4 py-4 text-slate-300">{row[3]}</td>
+                  <td className="px-4 py-4 text-slate-300">{row[4]}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8 max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">How It Works</p>
-          <h2 className="mt-2 font-display text-4xl">A founder-friendly workflow from blocker to answer.</h2>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {workflow.map((step, index) => (
-            <Card key={step.title} className="grain">
-              <CardHeader>
-                <p className="text-sm font-semibold text-primary">Step {index + 1}</p>
-                <CardTitle className="pt-2">{step.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">{step.description}</CardContent>
-            </Card>
-          ))}
-        </div>
-        <div className="mt-8 flex flex-wrap gap-4">
-          <TrackedLinkButton href="/dashboard?mode=sample" event="homepage_cta_secondary_clicked" size="lg">
-            Run a free AWS + GitHub scan
-          </TrackedLinkButton>
-          <TrackedLinkButton href="/book" event="homepage_cta_primary_clicked" variant="outline" size="lg">
-            Book a readiness review
-          </TrackedLinkButton>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-6">
-        <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-          <Card>
-            <CardHeader>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Fix What Matters First</p>
-              <CardTitle className="pt-3 text-3xl">Stop reacting to every compliance task with equal urgency.</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              Talosly ranks blockers by what is most likely to trigger buyer concern, so founders can fix the highest-leverage issues first instead of drowning in generic security advice.
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Generate Questionnaire Answers From Real Evidence</p>
-              <CardTitle className="pt-3 text-3xl">Turn findings into buyer-safe answers your team can actually send.</CardTitle>
-            </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-              The flagship output is not just a finding. It is a concise, honest answer draft that explains your current state, acknowledges the gap, and shows a credible remediation roadmap.
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8 flex items-end justify-between gap-6">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">What You Get After A Scan</p>
-            <h2 className="mt-2 font-display text-4xl">Outputs your team can use immediately.</h2>
-          </div>
-        </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {outcomes.map((feature) => (
-            <Card key={feature.title} className="grain">
-              <CardHeader>
-                <feature.icon className="h-8 w-8 text-primary" />
-                <CardTitle className="pt-4">{feature.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">{feature.description}</CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-6">
-        <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Why Founders Use This Before SOC 2</p>
-              <CardTitle className="pt-3 text-3xl">Because the deal is blocked now.</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-sm text-muted-foreground">
-              <p>SOC 2 may still be coming later. Buyers still want credible answers today.</p>
-              <p>Talosly helps teams harden the controls most likely to matter in live security reviews before they commit to a broader compliance program.</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Trust / Data Access / Permissions</p>
-              <CardTitle className="pt-3 text-3xl">Read evidence first. Change nothing without approval.</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-sm text-muted-foreground">
-              <p>Talosly focuses on read-oriented evidence collection for AWS IAM and GitHub configuration.</p>
-              <p>It identifies what needs to change, but remediation remains explicit and under your control.</p>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8 max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">For Early Design Partners</p>
-          <h2 className="mt-2 font-display text-4xl">If you have a live deal blocked on security, we want to help.</h2>
-          <p className="mt-4 text-muted-foreground">
-            We’re looking for a handful of founder-led teams willing to share the real questions buyers are asking so we can make the readiness flow sharper.
-          </p>
-        </div>
-        <div className="flex flex-wrap gap-4">
-          <TrackedLinkButton href="/book" event="book_call_clicked" size="lg">
-            Book a readiness review
-          </TrackedLinkButton>
-          <TrackedLinkButton href="/contact" event="signup_started" variant="outline" size="lg">
-            Talk to us first
-          </TrackedLinkButton>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-6">
-        <LeadCaptureForm />
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="mb-8 max-w-3xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">FAQ</p>
-          <h2 className="mt-2 font-display text-4xl">Common questions from founder-led teams.</h2>
-        </div>
-        <div className="grid gap-4">
-          {faqs.map((faq) => (
-            <Card key={faq.question}>
-              <CardHeader>
-                <CardTitle className="text-xl">{faq.question}</CardTitle>
-              </CardHeader>
-              <CardContent className="text-sm text-muted-foreground">{faq.answer}</CardContent>
-            </Card>
-          ))}
-        </div>
+      <section className="mx-auto max-w-7xl px-6 pb-24">
+        <Card className="border-white/10 bg-gradient-to-r from-indigo-500/20 to-white/5">
+          <CardContent className="flex flex-col gap-6 p-8 lg:flex-row lg:items-center lg:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.25em] text-indigo-300">Waitlist</p>
+              <h2 className="mt-2 font-display text-4xl text-white">Be first to hand the security questionnaire to an agent.</h2>
+              <p className="mt-3 text-slate-300">Join the waitlist for early access to the agentic audit workflow.</p>
+            </div>
+            <Button className="bg-indigo-500 hover:bg-indigo-400">
+              <ArrowRight className="mr-2 h-4 w-4" />
+              Join Waitlist Above
+            </Button>
+          </CardContent>
+        </Card>
       </section>
     </main>
   );
