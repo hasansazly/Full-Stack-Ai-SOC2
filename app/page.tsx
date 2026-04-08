@@ -65,6 +65,19 @@ const faqs = [
   }
 ];
 
+const proofPoints = [
+  {
+    quote:
+      "A pilot security review was slipping because our answers were too vague. Talosly made the actual blockers obvious and gave us language we could send.",
+    byline: "Design partner, founder-led B2B SaaS"
+  },
+  {
+    quote:
+      "The value is not another compliance checklist. It is knowing exactly which control gaps a buyer is going to challenge and what to fix first.",
+    byline: "Early user feedback"
+  }
+];
+
 export default function LandingPage() {
   return (
     <main>
@@ -148,6 +161,23 @@ export default function LandingPage() {
             <span>Enterprise pilot readiness</span>
             <span>Buyer questionnaire response workflows</span>
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-6 py-12">
+        <div className="mb-8 max-w-3xl">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">Early Proof</p>
+          <h2 className="mt-2 font-display text-4xl">Built around live buyer-review friction, not abstract compliance theory.</h2>
+        </div>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {proofPoints.map((item) => (
+            <Card key={item.quote} className="grain">
+              <CardContent className="p-6">
+                <p className="text-lg leading-8 text-foreground">“{item.quote}”</p>
+                <p className="mt-4 text-sm text-muted-foreground">{item.byline}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 

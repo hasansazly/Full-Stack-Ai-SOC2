@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
+import { sampleFindingOwners } from "@/lib/demo-data";
 import type { FindingRecord } from "@/lib/gapEngine";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,11 +16,13 @@ export function FindingsList({ findings }: { findings: FindingRecord[] }) {
     <div className="space-y-4">
       {findings.map((finding) => {
         const isOpen = openId === finding.id;
+        const meta =
+          sampleFindingOwners[(finding.id as keyof typeof sampleFindingOwners) ?? "demo-finding-1"] ?? null;
         return (
           <Card key={finding.id ?? finding.title} className="overflow-hidden">
             <button
               type="button"
-              className="grid w-full gap-3 px-6 py-5 text-left md:grid-cols-[1.3fr_120px_1.5fr_120px]"
+              className="grid w-full gap-3 px-6 py-5 text-left md:grid-cols-[1.2fr_110px_1.4fr_110px_150px]"
               onClick={() => setOpenId(isOpen ? null : finding.id ?? finding.title)}
             >
               <div>
@@ -40,10 +43,30 @@ export function FindingsList({ findings }: { findings: FindingRecord[] }) {
                 <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Status</p>
                 <p className="mt-2 text-sm font-medium capitalize">{finding.status}</p>
               </div>
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Owner</p>
+                <p className="mt-2 text-sm font-medium">{meta?.owner ?? "Unassigned"}</p>
+              </div>
             </button>
             {isOpen ? (
               <CardContent className="border-t border-border bg-muted/40">
                 <div className="space-y-5">
+                  {meta ? (
+                    <div className="grid gap-4 rounded-2xl border border-border bg-white p-4 md:grid-cols-3">
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Owner</p>
+                        <p className="mt-2 text-sm font-medium text-foreground">{meta.owner}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Execution status</p>
+                        <p className="mt-2 text-sm font-medium capitalize text-foreground">{meta.status}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Target date</p>
+                        <p className="mt-2 text-sm font-medium text-foreground">{meta.dueDate}</p>
+                      </div>
+                    </div>
+                  ) : null}
                   <div>
                     <h3 className="font-semibold">What is wrong</h3>
                     <p className="mt-2 text-sm text-muted-foreground">{finding.description}</p>
