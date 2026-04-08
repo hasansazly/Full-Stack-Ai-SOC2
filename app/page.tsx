@@ -22,16 +22,16 @@ const agentSteps = [
     description: "Map evidence to SOC 2 criteria and identify the controls that will stall the deal."
   },
   {
-    title: "Auto-Remediate",
-    description: "Generate the exact CLI, API call, or patch needed to close common gaps."
+    title: "Generate Approved Fixes",
+    description: "Generate the exact CLI, API call, or patch for the supported controls you approve."
   },
   {
-    title: "Generate Walkthrough",
-    description: "Document each fix with timestamps, approvals, and before/after evidence."
+    title: "Capture Evidence",
+    description: "Record approvals, timestamps, and before/after evidence for each remediation step."
   },
   {
-    title: "CPA Signs Report",
-    description: "Use the evidence trail to accelerate audit readiness and a signed report path."
+    title: "CPA-Ready Report Path",
+    description: "Use the resulting evidence trail to accelerate readiness and a signed report process."
   }
 ];
 
@@ -39,17 +39,20 @@ const pricing = [
   {
     tier: "Readiness SaaS",
     price: "$500/mo",
-    includes: "Dashboard, gap reports, policy templates"
+    includes: "Dashboard, gap reports, policy templates",
+    bestFor: "Best for teams with a live buyer questionnaire and no formal trust workflow yet."
   },
   {
     tier: "Managed Compliance",
     price: "$5,000/mo",
-    includes: "Auto-Remediator + agent monitoring"
+    includes: "Deterministic remediation workflows + agent monitoring",
+    bestFor: "Best for startups that need hands-on help closing control gaps before enterprise pilots expand."
   },
   {
     tier: "Guaranteed Audit",
     price: "$30,000 flat",
-    includes: "Full agentic audit + CPA-signed SOC 2"
+    includes: "Structured readiness program + CPA-ready signed report path",
+    bestFor: "Best for teams ready to run a tight audit timeline with shared onboarding and remediation discipline."
   }
 ];
 
@@ -62,7 +65,7 @@ const competitorRows = [
 
 const socialProofStats = [
   {
-    label: "Blocked deal focus",
+    label: "Blocked deal wedge",
     value: "$200k+",
     detail: "Typical enterprise deal size where security review friction starts to matter."
   },
@@ -78,7 +81,23 @@ const socialProofStats = [
   }
 ];
 
-const partnerLogos = ["Design Partner A", "Design Partner B", "Founder-Led SaaS", "Enterprise Pilot Team"];
+const proofArtifacts = [
+  {
+    title: "Customer quote",
+    body: "Use a real founder or CTO quote here describing how Talosly clarified the actual blocker and shortened the response cycle.",
+    meta: "Replace with real testimonial"
+  },
+  {
+    title: "Logo strip",
+    body: "Add real design partner logos or anonymized wordmarks here. Even 3 credible names will materially improve trust.",
+    meta: "Replace with real logos"
+  },
+  {
+    title: "Case study snippet",
+    body: "Example: Buyer security review was blocked on branch protection and privileged access. Talosly identified the gaps, generated the fixes, and produced the evidence trail for the follow-up review.",
+    meta: "Replace with one real outcome"
+  }
+];
 
 const trustLinks = [
   { href: "/trust", label: "Trust" },
@@ -119,7 +138,7 @@ export default function LandingPage() {
               Close Your Enterprise Deal. SOC 2 in 6 Weeks, Guaranteed.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-slate-300">
-              Talosly finds the security controls blocking enterprise deals, generates the exact fixes, and gives you an audit-ready trail to move faster.
+              Talosly finds the security controls blocking enterprise deals, generates the exact fixes, and gives you the evidence trail to move faster.
             </p>
             <p className="mt-4 max-w-2xl text-sm text-slate-400">
               For startups selling into enterprise on AWS and GitHub.
@@ -147,7 +166,7 @@ export default function LandingPage() {
             </div>
             <div className="mt-8 flex flex-wrap gap-6 text-sm text-slate-300">
               <p className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-indigo-400" /> AWS + GitHub evidence collection</p>
-              <p className="flex items-center gap-2"><Bot className="h-4 w-4 text-indigo-400" /> AI-generated remediation</p>
+              <p className="flex items-center gap-2"><Bot className="h-4 w-4 text-indigo-400" /> Approval-based fixes</p>
               <p className="flex items-center gap-2"><Sparkles className="h-4 w-4 text-indigo-400" /> Audit-ready evidence trail</p>
             </div>
           </div>
@@ -176,6 +195,14 @@ gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-prote
                   We identified gaps in privileged access enforcement and branch protection controls. Talosly generated remediation workflows, captured the evidence trail, and queued the approvals needed to bring those controls into compliance.
                 </p>
               </div>
+              <div className="rounded-2xl border border-indigo-500/20 bg-indigo-500/10 p-4">
+                <p className="font-medium text-white">Live product proof</p>
+                <div className="mt-3 space-y-2 text-sm text-slate-200">
+                  <p>Failing controls: `Privileged user without MFA`, `No peer review required`</p>
+                  <p>Suggested fix: exact GitHub API request or AWS CLI payload</p>
+                  <p>Evidence captured: before state, approval timestamp, after state</p>
+                </div>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -196,23 +223,16 @@ gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-prote
           </Card>
           <Card className="border-white/10 bg-[#141414]">
             <CardHeader>
-              <CardTitle className="text-white">Design partner placeholder</CardTitle>
+              <CardTitle className="text-white">Proof section</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4 text-sm text-slate-300">
-              <p>
-                “Talosly helped us separate real control gaps from questionnaire noise and gave us a concrete remediation path for the buyer.”
-              </p>
-              <p className="text-xs uppercase tracking-[0.22em] text-slate-500">Founder / CTO, early-stage B2B SaaS</p>
-              <div className="flex flex-wrap gap-2 pt-2">
-                {partnerLogos.map((logo) => (
-                  <span
-                    key={logo}
-                    className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-xs uppercase tracking-[0.18em] text-slate-400"
-                  >
-                    {logo}
-                  </span>
-                ))}
-              </div>
+            <CardContent className="space-y-3">
+              {proofArtifacts.map((item) => (
+                <div key={item.title} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-300">{item.title}</p>
+                  <p className="mt-2 text-sm text-slate-300">{item.body}</p>
+                  <p className="mt-3 text-xs uppercase tracking-[0.18em] text-slate-500">{item.meta}</p>
+                </div>
+              ))}
             </CardContent>
           </Card>
         </div>
@@ -241,9 +261,9 @@ gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-prote
       <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="mb-8 max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-indigo-300">How It Works</p>
-          <h2 className="mt-2 font-display text-4xl">Five agents from raw evidence to signed report.</h2>
+          <h2 className="mt-2 font-display text-4xl">From blocked deal to buyer-ready evidence.</h2>
           <p className="mt-3 text-sm text-slate-400">
-            A narrow, buyer-focused workflow: collect evidence, identify blockers, generate the fix, and document every step.
+            A narrow workflow: collect evidence, identify blockers, generate the fix, and document every approved step.
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-5">
@@ -285,7 +305,10 @@ gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-prote
                   <td className="px-4 py-4 text-slate-300">{index + 1}</td>
                   <td className="px-4 py-4 font-medium text-white">{tier.tier}</td>
                   <td className="px-4 py-4 text-slate-300">{tier.price}</td>
-                  <td className="px-4 py-4 text-slate-300">{tier.includes}</td>
+                  <td className="px-4 py-4 text-slate-300">
+                    <p>{tier.includes}</p>
+                    <p className="mt-2 text-xs text-slate-500">{tier.bestFor}</p>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -300,9 +323,9 @@ gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-prote
               <CardTitle className="text-white">Trust and permissions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-slate-300">
-              <p>AWS and GitHub connections are used to collect evidence and prepare deterministic fixes for known control gaps.</p>
-              <p>No remediation runs without explicit approval.</p>
-              <p>Every approval, payload, and evidence snapshot is recorded with timestamps for audit trail integrity.</p>
+              <p>AWS and GitHub connections are used to collect evidence and prepare deterministic fixes for a narrow set of supported control gaps.</p>
+              <p>No remediation runs without explicit approval, and unsupported controls remain manual.</p>
+              <p>Every approval, payload, and evidence snapshot is recorded with timestamps so the audit trail is defensible.</p>
               <div className="flex flex-wrap gap-3 pt-2">
                 {trustLinks.map((item) => (
                   <Button key={item.href} asChild variant="outline" size="sm" className="border-white/10 bg-transparent text-white hover:bg-white/5">
