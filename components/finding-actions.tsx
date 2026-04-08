@@ -2,12 +2,19 @@
 
 import { useState } from "react";
 
+import { captureEvent } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
-export function FindingActions({ findingId }: { findingId: string }) {
+export function FindingActions({
+  findingId,
+  initialAnswer
+}: {
+  findingId: string;
+  initialAnswer?: string | null;
+}) {
   const [question, setQuestion] = useState("Do you enforce peer review before production deployment?");
-  const [questionnaireAnswer, setQuestionnaireAnswer] = useState<string | null>(null);
+  const [questionnaireAnswer, setQuestionnaireAnswer] = useState<string | null>(initialAnswer ?? null);
   const [policyDraft, setPolicyDraft] = useState<string | null>(null);
   const [loadingQuestionnaire, setLoadingQuestionnaire] = useState(false);
   const [loadingPolicy, setLoadingPolicy] = useState(false);
@@ -20,6 +27,7 @@ export function FindingActions({ findingId }: { findingId: string }) {
       body: JSON.stringify({ findingId, question })
     });
     const payload = await response.json();
+    captureEvent("questionnaire_answer_generated", { finding_id: findingId });
     setQuestionnaireAnswer(
       `Current State\n${payload.currentState}\n\nGap Identified\n${payload.gapIdentified}\n\nRemediation Roadmap\n${payload.remediationRoadmap}\n\nTimeline Estimate\n${payload.timelineEstimate}`
     );
@@ -39,6 +47,7 @@ export function FindingActions({ findingId }: { findingId: string }) {
       })
     });
     const payload = await response.json();
+    captureEvent("policy_generated", { finding_id: findingId, policy_type: "Change Management" });
     setPolicyDraft(payload.document);
     setLoadingPolicy(false);
   }
@@ -50,7 +59,7 @@ export function FindingActions({ findingId }: { findingId: string }) {
         <Textarea value={question} onChange={(event) => setQuestion(event.target.value)} />
         <div className="flex flex-wrap gap-3">
           <Button onClick={handleQuestionnaire} disabled={loadingQuestionnaire}>
-            {loadingQuestionnaire ? "Generating..." : "Generate Questionnaire Answer"}
+            {loadingQuestionnaire ? "Generating..." : "Refresh Questionnaire Answer"}
           </Button>
           <Button variant="secondary" onClick={handlePolicy} disabled={loadingPolicy}>
             {loadingPolicy ? "Generating..." : "Generate Policy Draft"}

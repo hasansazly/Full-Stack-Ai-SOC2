@@ -5,17 +5,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getEvidenceArtifacts } from "@/lib/data";
 import { formatDate, shortChecksum } from "@/lib/utils";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams
+}: {
+  searchParams?: { mode?: string };
+}) {
   const evidenceArtifacts = await getEvidenceArtifacts();
+  const initialMode = searchParams?.mode === "sample" ? "sample" : undefined;
 
   return (
     <main className="mx-auto max-w-7xl space-y-8 px-6 py-12">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">Dashboard</p>
-          <h1 className="mt-2 font-display text-5xl">Security review blockers at a glance.</h1>
+          <h1 className="mt-2 font-display text-5xl">Turn a blank workspace into a buyer-ready story.</h1>
           <p className="mt-4 max-w-2xl text-muted-foreground">
-            Connect your environments, run both collectors, and convert evidence into prioritized findings you can actually close.
+            This first-run view is designed to keep founders moving: pick sample mode or real mode, connect what you need, run one scan, and get to the blockers that matter.
           </p>
         </div>
         <Link href="/findings" className="text-sm font-semibold text-primary">
@@ -23,7 +28,7 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      <DashboardControls clientId={null} />
+      <DashboardControls clientId={null} initialMode={initialMode ?? null} />
 
       <Card>
         <CardHeader>

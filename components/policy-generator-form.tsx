@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { captureEvent } from "@/lib/analytics";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -30,6 +31,7 @@ export function PolicyGeneratorForm() {
     });
     const payload = await response.json();
     setDocument(payload.document);
+    captureEvent("policy_generated", { policy_type: policyType, tools });
     setLoading(false);
   }
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ShieldCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { TrackedLinkButton } from "@/components/tracked-link-button";
 
 export function SiteHeader() {
   return (
@@ -14,6 +15,12 @@ export function SiteHeader() {
           <span>ClearAudit</span>
         </Link>
         <nav className="hidden items-center gap-6 text-sm md:flex">
+          <Link href="/pricing" className="hover:text-primary">
+            Pricing
+          </Link>
+          <Link href="/trust" className="hover:text-primary">
+            Trust
+          </Link>
           <Link href="/dashboard" className="hover:text-primary">
             Dashboard
           </Link>
@@ -27,9 +34,14 @@ export function SiteHeader() {
             Policies
           </Link>
         </nav>
-        <Button asChild variant="outline" size="sm">
-          <Link href="/login">Sign In</Link>
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button asChild variant="outline" size="sm">
+            <Link href="/login">Sign In</Link>
+          </Button>
+          <TrackedLinkButton href="/book" event="book_call_clicked" size="sm">
+            Book Review
+          </TrackedLinkButton>
+        </div>
       </div>
     </header>
   );

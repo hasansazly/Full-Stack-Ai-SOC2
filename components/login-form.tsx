@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { captureEvent } from "@/lib/analytics";
 import { createBrowserSupabaseClient } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ export function LoginForm() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    captureEvent("signup_started", { source: "login_form" });
     const supabase = createBrowserSupabaseClient();
 
     if (!supabase) {
@@ -36,7 +38,7 @@ export function LoginForm() {
         <Input type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="you@company.com" />
       </div>
       <Button type="submit" className="w-full">
-        Send magic link
+        Create free workspace
       </Button>
       <p className="text-sm text-muted-foreground">{message}</p>
     </form>

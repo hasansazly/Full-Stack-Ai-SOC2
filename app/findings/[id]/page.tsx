@@ -1,9 +1,12 @@
 import { notFound } from "next/navigation";
 
 import { FindingActions } from "@/components/finding-actions";
+import { FindingViewTracker } from "@/components/finding-view-tracker";
+import { QuestionnaireAnswerPreview } from "@/components/questionnaire-answer-preview";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getFindingById } from "@/lib/data";
+import { generateQuestionnaireAnswer } from "@/lib/questionnaire";
 
 export default async function FindingDetailPage({ params }: { params: { id: string } }) {
   const finding = await getFindingById(params.id);
@@ -17,9 +20,17 @@ export default async function FindingDetailPage({ params }: { params: { id: stri
     finding.control_area.includes("CC6")
       ? "AWS CLI suggestion: aws iam list-users && aws iam list-mfa-devices --user-name <user>"
       : "GitHub CLI suggestion: gh api repos/<org>/<repo>/branches/main/protection";
+  const answer = generateQuestionnaireAnswer(
+    finding,
+    finding.control_area.includes("CC8")
+      ? "Do you enforce peer review before production deployment?"
+      : "Do you require multi-factor authentication for privileged cloud access?"
+  );
+  const initialAnswer = `Current State\n${answer.currentState}\n\nGap Identified\n${answer.gapIdentified}\n\nRemediation Roadmap\n${answer.remediationRoadmap}\n\nTimeline Estimate\n${answer.timelineEstimate}`;
 
   return (
     <main className="mx-auto max-w-5xl space-y-8 px-6 py-12">
+      <FindingViewTracker findingId={finding.id ?? finding.title} title={finding.title} severity={finding.severity} />
       <div className="space-y-4">
         <div className="flex flex-wrap items-center gap-3">
           <Badge variant={finding.severity as "critical" | "high" | "medium" | "low"}>{finding.severity}</Badge>
@@ -40,6 +51,12 @@ export default async function FindingDetailPage({ params }: { params: { id: stri
               <p className="mt-2 text-sm text-muted-foreground">{finding.business_risk}</p>
             </div>
             <div>
+              <h2 className="font-semibold">Why a buyer or security team cares</h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Buyers are looking for evidence that access and change controls are both designed and consistently enforced. This finding signals a control weakness they are likely to ask follow-up questions about.
+              </p>
+            </div>
+            <div>
               <h2 className="font-semibold">Exact remediation steps</h2>
               <ol className="mt-3 list-decimal space-y-3 pl-5 text-sm text-muted-foreground">
                 {remediationSteps.map((step) => (
@@ -53,15 +70,16 @@ export default async function FindingDetailPage({ params }: { params: { id: stri
               <p className="font-medium text-foreground">CLI / console suggestion</p>
               <p className="mt-2 font-mono text-xs">{cliSuggestion}</p>
             </div>
+            <QuestionnaireAnswerPreview answer={answer} />
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>AI Assistance</CardTitle>
+            <CardTitle>Action Center</CardTitle>
           </CardHeader>
           <CardContent>
-            <FindingActions findingId={finding.id ?? ""} />
+            <FindingActions findingId={finding.id ?? ""} initialAnswer={initialAnswer} />
           </CardContent>
         </Card>
       </div>
