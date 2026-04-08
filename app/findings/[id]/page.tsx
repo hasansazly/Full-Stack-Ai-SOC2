@@ -4,10 +4,12 @@ import { ExportPacketButton } from "@/components/export-packet-button";
 import { FindingActions } from "@/components/finding-actions";
 import { FindingViewTracker } from "@/components/finding-view-tracker";
 import { QuestionnaireAnswerPreview } from "@/components/questionnaire-answer-preview";
+import { RemediationDetail } from "@/components/remediation-detail";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getFindingById } from "@/lib/data";
+import { getFindingById, getRemediationLogsForFinding } from "@/lib/data";
 import { sampleFindingOwners } from "@/lib/demo-data";
+import { buildDefaultTimeline, getRemediationForFindingRecord } from "@/lib/remediations/registry";
 import { generateQuestionnaireAnswer } from "@/lib/questionnaire";
 
 export default async function FindingDetailPage({ params }: { params: { id: string } }) {
@@ -18,6 +20,8 @@ export default async function FindingDetailPage({ params }: { params: { id: stri
   }
 
   const remediationSteps = finding.remediation_steps as Array<{ step: number; action: string; detail: string }>;
+  const remediation = getRemediationForFindingRecord(finding);
+  const remediationTimeline = await getRemediationLogsForFinding(finding.id ?? "");
   const cliSuggestion =
     finding.control_area.includes("CC6")
       ? "AWS CLI suggestion: aws iam list-users && aws iam list-mfa-devices --user-name <user>"
@@ -109,6 +113,11 @@ export default async function FindingDetailPage({ params }: { params: { id: stri
               <p className="font-medium text-foreground">Compensating control language</p>
               <p className="mt-2">{findingMeta.compensatingControl}</p>
             </div>
+            <RemediationDetail
+              findingId={finding.id ?? ""}
+              remediation={remediation}
+              initialTimeline={remediationTimeline.length > 0 ? remediationTimeline : buildDefaultTimeline()}
+            />
             <FindingActions findingId={finding.id ?? ""} initialAnswer={initialAnswer} />
             <ExportPacketButton label="Export packet with this finding" />
           </CardContent>
