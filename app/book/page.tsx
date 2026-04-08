@@ -2,6 +2,8 @@ import { TrackedLinkButton } from "@/components/tracked-link-button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function BookPage() {
+  const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || "mailto:founders@talosly.com?subject=Readiness%20Review";
+
   return (
     <main className="mx-auto max-w-5xl space-y-8 px-6 py-14">
       <div className="max-w-3xl">
@@ -29,15 +31,15 @@ export default function BookPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Swap this placeholder with Calendly, SavvyCal, or your booking flow.
+              Connect your real booking URL through `NEXT_PUBLIC_BOOKING_URL`, or use the email fallback to schedule directly.
             </p>
             <TrackedLinkButton
-              href="mailto:founders@talosly.com?subject=Readiness%20Review"
+              href={bookingUrl}
               event="book_call_clicked"
               size="lg"
               className="w-full"
             >
-              Email to schedule
+              Book now
             </TrackedLinkButton>
           </CardContent>
         </Card>

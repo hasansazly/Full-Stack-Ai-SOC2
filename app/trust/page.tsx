@@ -63,6 +63,28 @@ export default function TrustPage() {
           </CardContent>
         </Card>
       </div>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Data handling model</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-muted-foreground">
+            <p><span className="font-medium text-foreground">Stored:</span> evidence artifacts, findings, generated drafts, and workspace metadata needed to support trust-readiness workflows.</p>
+            <p><span className="font-medium text-foreground">Not the goal:</span> broad ingestion of unnecessary customer data outside the narrow evidence needed for AWS and GitHub review readiness.</p>
+            <p><span className="font-medium text-foreground">Traceability:</span> artifacts should remain linked to timestamps, checksums, and source system context.</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Customer isolation</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm text-muted-foreground">
+            <p>Each customer workspace should be isolated so users only see their own findings, evidence, and remediation history.</p>
+            <p>Row-level access control and scoped credentials are the default operating model for multi-tenant trust data.</p>
+            <p>Any future action-taking workflows should inherit the same approval, auditability, and isolation boundaries.</p>
+          </CardContent>
+        </Card>
+      </div>
     </main>
   );
 }

@@ -149,6 +149,14 @@ export function DashboardControls({
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
+          {workspaceMode === "sample" ? (
+            <div className="rounded-3xl border border-primary/20 bg-primary/5 p-5 text-sm text-muted-foreground">
+              <p className="font-medium text-foreground">Sample workspace story</p>
+              <p className="mt-2">
+                This demo represents a founder-led B2B SaaS company with an enterprise pilot blocked on buyer security review. Start with the top blocker, open the finding, then generate the questionnaire answer to see the core Talosly workflow.
+              </p>
+            </div>
+          ) : null}
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {steps.map((step, index) => (
               <div key={step.label} className="rounded-2xl border border-border bg-white p-4">
@@ -301,6 +309,12 @@ export function DashboardControls({
                     <p key={question}>- {question}</p>
                   ))}
                 </div>
+              </div>
+              <div className="rounded-2xl border border-border bg-white p-4">
+                <p className="font-medium text-foreground">Suggested next step</p>
+                <p className="mt-2 text-muted-foreground">
+                  Open the critical finding first, confirm why the buyer cares, then use the generated answer as the starting point for your security questionnaire response.
+                </p>
               </div>
               <Link href="/findings" className="font-semibold text-primary">
                 Open findings and generate your own answer

@@ -80,6 +80,9 @@ export default function LandingPage() {
             <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
               Talosly helps startups close enterprise deals faster by finding, fixing, and proving the security controls buyer reviews care about, starting with AWS and GitHub and growing into a machine-readable system of record for trust evidence.
             </p>
+            <p className="mt-4 max-w-2xl text-base font-medium text-foreground">
+              If enterprise deals are stalling on buyer security reviews, Talosly is built for that moment.
+            </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <TrackedLinkButton href="/book" event="homepage_cta_primary_clicked" size="lg">
                 Book a 20-minute readiness review
@@ -195,6 +198,14 @@ export default function LandingPage() {
               <CardContent className="text-sm text-muted-foreground">{step.description}</CardContent>
             </Card>
           ))}
+        </div>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <TrackedLinkButton href="/dashboard?mode=sample" event="homepage_cta_secondary_clicked" size="lg">
+            Run a free AWS + GitHub scan
+          </TrackedLinkButton>
+          <TrackedLinkButton href="/book" event="homepage_cta_primary_clicked" variant="outline" size="lg">
+            Book a readiness review
+          </TrackedLinkButton>
         </div>
       </section>
 

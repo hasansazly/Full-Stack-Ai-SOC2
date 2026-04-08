@@ -7,18 +7,21 @@ const tiers = [
   {
     name: "Free Scan",
     price: "$0",
+    bestFor: "Best for founders validating whether a live deal is blocked on buyer security review.",
     description: "Best for founders who want to see likely enterprise blockers before a real buyer review.",
     bullets: ["Sample workspace", "AWS + GitHub scan", "Core findings and evidence view", "Questionnaire answer preview"]
   },
   {
     name: "Readiness Sprint",
     price: "$1.5k-$4k",
+    bestFor: "Best for teams with an active buyer, questionnaire, or security call on the calendar.",
     description: "A short engagement to identify gaps, prioritize fixes, and prep for a live buyer security review.",
     bullets: ["Hands-on readiness review", "Top blocker remediation plan", "Policy and questionnaire support", "Founder-friendly implementation guidance"]
   },
   {
     name: "Managed Remediation / Audit Prep",
     price: "Custom",
+    bestFor: "Best for companies turning repeated buyer friction into a durable trust program.",
     description: "For teams that need sustained help getting from blocked deal to audit-ready operating baseline.",
     bullets: ["Managed follow-through on findings", "Security review response support", "Change-management and access-control hardening", "Prep for SOC 2 and procurement follow-ups"]
   }
@@ -40,6 +43,7 @@ export default function PricingPage() {
             <CardHeader>
               <CardTitle>{tier.name}</CardTitle>
               <p className="mt-3 text-4xl font-semibold">{tier.price}</p>
+              <p className="text-sm font-medium text-foreground">{tier.bestFor}</p>
               <p className="text-sm text-muted-foreground">{tier.description}</p>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-muted-foreground">
