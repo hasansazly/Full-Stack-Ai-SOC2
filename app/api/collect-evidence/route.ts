@@ -1,13 +1,10 @@
-import { createHash, webcrypto } from "crypto";
 import { NextResponse } from "next/server";
-import { GenerateCredentialReportCommand, GetCredentialReportCommand, IAMClient } from "@aws-sdk/client-iam";
 
+import { collectAwsIamEvidence } from "@/lib/awsCollector";
+import { sha256Json } from "@/lib/checksum";
+import { buildGapFindings, persistGapFindings } from "@/lib/gapEngine";
+import { collectGithubEvidence } from "@/lib/githubCollector";
 import { createClient } from "@/lib/supabase/server";
-
-async function sha256(content: string) {
-  const buffer = await webcrypto.subtle.digest("SHA-256", new TextEncoder().encode(content));
-  return Buffer.from(buffer).toString("hex");
-}
 
 async function getCurrentClientId() {
   const supabase = createClient();
@@ -26,26 +23,6 @@ async function getCurrentClientId() {
 
   return { supabase, user, clientId: client.id };
 }
-
-async function getAwsCredentialReport(accessKeyId: string, secretAccessKey: string) {
-  const iam = new IAMClient({
-    region: "us-east-1",
-    credentials: { accessKeyId, secretAccessKey }
-  });
-
-  await iam.send(new GenerateCredentialReportCommand({}));
-
-  for (let i = 0; i < 5; i += 1) {
-    const report = await iam.send(new GetCredentialReportCommand({}));
-    if (report.Content) {
-      return Buffer.from(report.Content).toString("utf-8");
-    }
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-  }
-
-  throw new Error("AWS credential report was not ready.");
-}
-
 export async function POST(request: Request) {
   try {
     const { supabase, clientId } = await getCurrentClientId();
@@ -61,72 +38,61 @@ export async function POST(request: Request) {
     }
 
     const artifacts: Array<Record<string, string>> = [];
+    const [awsSummary, githubSummary] = await Promise.all([
+      collectAwsIamEvidence({
+        accessKeyId: body.aws_access_key,
+        secretAccessKey: body.aws_secret_key,
+        region: "us-east-1",
+      }),
+      collectGithubEvidence({
+        token: body.github_token,
+        org: body.github_org,
+      }),
+    ]);
 
-    const awsContent = await getAwsCredentialReport(body.aws_access_key, body.aws_secret_key);
+    const awsContent = JSON.stringify(awsSummary, null, 2);
+    const awsChecksum = sha256Json(awsSummary);
     artifacts.push({
       client_id: clientId,
       control: "CC6",
       source: "AWS_IAM",
       collected_at: new Date().toISOString(),
-      content_hash: await sha256(awsContent),
-      raw_content: Buffer.from(awsContent).toString("base64")
-    });
+      content_hash: awsChecksum,
+      checksum: awsChecksum,
+      raw_content: Buffer.from(awsContent).toString("base64"),
+      raw_data: awsSummary,
+      artifact_type: "iam_scan_summary",
+    } as unknown as Record<string, string>);
 
-    const reposResponse = await fetch(`https://api.github.com/orgs/${body.github_org}/repos?per_page=100`, {
-      headers: {
-        Authorization: `Bearer ${body.github_token}`,
-        Accept: "application/vnd.github+json"
-      }
-    });
-
-    if (!reposResponse.ok) {
-      throw new Error("Failed to fetch GitHub repositories.");
-    }
-
-    const repos = (await reposResponse.json()) as Array<{ name: string; default_branch: string }>;
-    const protections = await Promise.all(
-      repos.slice(0, 10).map(async (repo) => {
-        const response = await fetch(
-          `https://api.github.com/repos/${body.github_org}/${repo.name}/branches/${repo.default_branch || "main"}/protection`,
-          {
-            headers: {
-              Authorization: `Bearer ${body.github_token}`,
-              Accept: "application/vnd.github+json"
-            }
-          }
-        );
-
-        const data = response.ok ? await response.json() : { repo: repo.name, protection: null };
-        return { repo: repo.name, data };
-      })
-    );
-
-    const githubContent = JSON.stringify(protections, null, 2);
+    const githubContent = JSON.stringify(githubSummary, null, 2);
+    const githubChecksum = sha256Json(githubSummary);
     artifacts.push({
       client_id: clientId,
       control: "CC8",
       source: "GITHUB_BRANCH",
       collected_at: new Date().toISOString(),
-      content_hash: await sha256(githubContent),
-      raw_content: Buffer.from(githubContent).toString("base64")
-    });
+      content_hash: githubChecksum,
+      checksum: githubChecksum,
+      raw_content: Buffer.from(githubContent).toString("base64"),
+      raw_data: githubSummary,
+      artifact_type: "github_branch_audit",
+    } as unknown as Record<string, string>);
 
     const { data: insertedArtifacts, error } = await supabase.from("evidence_artifacts").insert(artifacts).select("*");
     if (error) {
       throw new Error(error.message);
     }
-
-    const analyzeResponse = await fetch(new URL("/api/analyze-gaps", request.url), {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Cookie: request.headers.get("cookie") || "" }
-    });
-
-    const analyzePayload = await analyzeResponse.json();
+    const findings = buildGapFindings(clientId, awsSummary, githubSummary);
+    const persistedFindings = await persistGapFindings(findings);
 
     return NextResponse.json({
       success: true,
       artifacts_collected: insertedArtifacts?.length || 0,
-      gaps_found: analyzePayload.gaps?.length || 0
+      gaps_found: persistedFindings.length || 0,
+      summary: {
+        aws: awsSummary,
+        github: githubSummary,
+      },
     });
   } catch (error) {
     return NextResponse.json(

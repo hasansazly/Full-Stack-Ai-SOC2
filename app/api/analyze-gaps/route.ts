@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { buildGapFindings, type AwsScanSummary, type GithubScanSummary } from "@/lib/gapEngine";
 import { createClient } from "@/lib/supabase/server";
 
 type ParsedGap = {
@@ -11,11 +12,41 @@ type ParsedGap = {
   remediation_code: string;
 };
 
-function fallbackAnalyze(evidence: Array<{ control: string; raw_content: string }>): ParsedGap[] {
+function mapFindingsToParsedGaps(
+  findings: ReturnType<typeof buildGapFindings>,
+): ParsedGap[] {
+  return findings.map((finding) => ({
+    control: finding.control_area.includes("CC8") ? "CC8" : "CC6",
+    severity: finding.severity,
+    finding: finding.title,
+    auto_remediable: ["Privileged user without MFA", "No peer review required", "Direct push to main allowed", "No CODEOWNERS file", "No branch protection on main"].includes(
+      finding.title,
+    ),
+    remediation_type: finding.control_area.includes("CC8")
+      ? finding.title.includes("CODEOWNERS")
+        ? "pr"
+        : "api"
+      : "cli",
+    remediation_code: finding.remediation_steps
+      .map((step) => `${step.step}. ${step.action}: ${step.detail}`)
+      .join("\n"),
+  }));
+}
+
+function fallbackAnalyze(
+  evidence: Array<{ control?: string | null; raw_content?: string | null; raw_data?: unknown }>,
+): ParsedGap[] {
+  const awsSummary = evidence.find((item) => item.control === "CC6")?.raw_data as AwsScanSummary | undefined;
+  const githubSummary = evidence.find((item) => item.control === "CC8")?.raw_data as GithubScanSummary | undefined;
+
+  if (awsSummary || githubSummary) {
+    return mapFindingsToParsedGaps(buildGapFindings(null, awsSummary, githubSummary));
+  }
+
   const findings: ParsedGap[] = [];
 
   for (const item of evidence) {
-    const content = Buffer.from(item.raw_content, "base64").toString("utf-8").toLowerCase();
+    const content = Buffer.from(item.raw_content || "", "base64").toString("utf-8").toLowerCase();
 
     if (item.control === "CC6" && content.includes("false")) {
       findings.push({
@@ -38,6 +69,17 @@ function fallbackAnalyze(evidence: Array<{ control: string; raw_content: string 
         remediation_type: "api",
         remediation_code:
           "gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-protection.json"
+      });
+    }
+
+    if (item.control === "CC8" && content.includes("codeownersexists\": false")) {
+      findings.push({
+        control: "CC8",
+        severity: "medium",
+        finding: "No CODEOWNERS file",
+        auto_remediable: true,
+        remediation_type: "pr",
+        remediation_code: "Create .github/CODEOWNERS in a pull request and require code owner review on the protected branch.",
       });
     }
   }
@@ -105,7 +147,9 @@ export async function POST() {
       const text = payload.content?.find((item) => item.type === "text")?.text || "[]";
       parsedGaps = JSON.parse(text) as ParsedGap[];
     } else {
-      parsedGaps = fallbackAnalyze(evidenceRows as Array<{ control: string; raw_content: string }>);
+      parsedGaps = fallbackAnalyze(
+        evidenceRows as Array<{ control?: string | null; raw_content?: string | null; raw_data?: unknown }>,
+      );
     }
 
     if (parsedGaps.length > 0) {

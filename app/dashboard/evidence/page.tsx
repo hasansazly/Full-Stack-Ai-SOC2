@@ -12,7 +12,8 @@ type EvidenceItem = {
   control: string;
   source: string;
   collected_at: string;
-  content_hash: string;
+  content_hash?: string | null;
+  checksum?: string | null;
 };
 
 function shortHash(hash: string) {
@@ -101,8 +102,8 @@ export default function EvidencePage() {
                   <td className="px-4 py-4 text-white">{item.control}</td>
                   <td className="px-4 py-4 text-[#d4d4d8]">{item.source}</td>
                   <td className="px-4 py-4 text-[#888888]">{new Date(item.collected_at).toLocaleString()}</td>
-                  <td className="px-4 py-4 font-mono text-[#d4d4d8]" title={item.content_hash}>
-                    {shortHash(item.content_hash)}
+                  <td className="px-4 py-4 font-mono text-[#d4d4d8]" title={item.content_hash || item.checksum || ""}>
+                    {item.content_hash || item.checksum ? shortHash(item.content_hash || item.checksum || "") : "Unavailable"}
                   </td>
                   <td className="px-4 py-4 text-[#22c55e]">Collected</td>
                 </tr>
