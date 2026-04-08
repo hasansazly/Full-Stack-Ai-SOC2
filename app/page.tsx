@@ -1,4 +1,5 @@
 import { ArrowRight, Bot, CheckCircle2, ShieldCheck, Sparkles, TriangleAlert } from "lucide-react";
+import Link from "next/link";
 
 import { WaitlistForm } from "@/components/waitlist-form";
 import { Button } from "@/components/ui/button";
@@ -243,9 +244,11 @@ gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-prote
               <h2 className="mt-2 font-display text-4xl text-white">Join the first Talosly audit cohorts.</h2>
               <p className="mt-3 text-slate-300">If a live enterprise deal is blocked on trust, we want to talk.</p>
             </div>
-            <Button className="bg-indigo-500 hover:bg-indigo-400">
-              Join via waitlist form
-              <ArrowRight className="ml-2 h-4 w-4" />
+            <Button asChild className="bg-indigo-500 hover:bg-indigo-400">
+              <Link href="https://tally.so/r/PdYMqB" target="_blank" rel="noreferrer">
+                Join via waitlist form
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
             </Button>
           </CardContent>
         </Card>
