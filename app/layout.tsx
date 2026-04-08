@@ -7,7 +7,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
-  title: "ClearAudit",
+  title: "Talosly",
   description: "Compliance gap detection for startup security reviews."
 };
 

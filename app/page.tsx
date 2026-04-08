@@ -49,7 +49,7 @@ const outcomes = [
 const faqs = [
   {
     question: "Do I need SOC 2 before using this?",
-    answer: "No. ClearAudit is built for the phase before SOC 2, when a real buyer is already asking security questions and you need to know what matters first."
+    answer: "No. Talosly is built for the phase before SOC 2, when a real buyer is already asking security questions and you need to know what matters first."
   },
   {
     question: "Can I try it without connecting credentials?",
@@ -206,7 +206,7 @@ export default function LandingPage() {
               <CardTitle className="pt-3 text-3xl">Stop reacting to every compliance task with equal urgency.</CardTitle>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">
-              ClearAudit ranks blockers by what is most likely to trigger buyer concern, so founders can fix the highest-leverage issues first instead of drowning in generic security advice.
+              Talosly ranks blockers by what is most likely to trigger buyer concern, so founders can fix the highest-leverage issues first instead of drowning in generic security advice.
             </CardContent>
           </Card>
           <Card>
@@ -250,7 +250,7 @@ export default function LandingPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-sm text-muted-foreground">
               <p>SOC 2 may still be coming later. Buyers still want credible answers today.</p>
-              <p>ClearAudit helps teams harden the controls most likely to matter in live security reviews before they commit to a broader compliance program.</p>
+              <p>Talosly helps teams harden the controls most likely to matter in live security reviews before they commit to a broader compliance program.</p>
             </CardContent>
           </Card>
           <Card>
@@ -259,7 +259,7 @@ export default function LandingPage() {
               <CardTitle className="pt-3 text-3xl">Read evidence first. Change nothing without approval.</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm text-muted-foreground">
-              <p>ClearAudit focuses on read-oriented evidence collection for AWS IAM and GitHub configuration.</p>
+              <p>Talosly focuses on read-oriented evidence collection for AWS IAM and GitHub configuration.</p>
               <p>It identifies what needs to change, but remediation remains explicit and under your control.</p>
             </CardContent>
           </Card>

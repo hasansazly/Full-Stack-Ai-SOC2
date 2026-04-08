@@ -31,7 +31,7 @@ export default function PricingPage() {
         <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">Pricing</p>
         <h1 className="mt-2 font-display text-5xl">Start free, then pay for momentum.</h1>
         <p className="mt-4 text-muted-foreground">
-          ClearAudit is designed for teams that need to unblock revenue now, not six months from now.
+          Talosly is designed for teams that need to unblock revenue now, not six months from now.
         </p>
       </div>
       <div className="grid gap-6 lg:grid-cols-3">

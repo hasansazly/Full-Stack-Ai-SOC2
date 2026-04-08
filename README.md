@@ -1,6 +1,6 @@
-# ClearAudit
+# Talosly
 
-ClearAudit is a Next.js 14 MVP for detecting compliance gaps across AWS IAM and GitHub branch management. It stores evidence in Supabase, generates rule-based findings, and drafts remediation outputs for security questionnaires and policies.
+Talosly is a Next.js 14 MVP for detecting compliance gaps across AWS IAM and GitHub branch management. It stores evidence in Supabase, generates rule-based findings, and drafts remediation outputs for security questionnaires and policies.
 
 ## Stack
 

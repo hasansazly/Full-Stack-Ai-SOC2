@@ -9,7 +9,7 @@ const principles = [
   {
     title: "No remediation without approval",
     description:
-      "ClearAudit surfaces what should change and why. Any remediation action should be approved by your team before anything is updated."
+      "Talosly surfaces what should change and why. Any remediation action should be approved by your team before anything is updated."
   },
   {
     title: "Evidence handling with minimal scope",
@@ -25,7 +25,7 @@ export default function TrustPage() {
         <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">Trust</p>
         <h1 className="mt-2 font-display text-5xl">Built for skeptical founders and skeptical buyers.</h1>
         <p className="mt-4 text-muted-foreground">
-          ClearAudit is designed to help you answer enterprise security teams with real evidence while keeping access narrow and explicit.
+          Talosly is designed to help you answer enterprise security teams with real evidence while keeping access narrow and explicit.
         </p>
       </div>
       <div className="grid gap-6 md:grid-cols-3">

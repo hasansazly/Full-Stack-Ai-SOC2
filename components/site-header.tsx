@@ -12,7 +12,7 @@ export function SiteHeader() {
           <div className="rounded-2xl bg-primary/10 p-2 text-primary">
             <ShieldCheck className="h-5 w-5" />
           </div>
-          <span>ClearAudit</span>
+          <span>Talosly</span>
         </Link>
         <nav className="hidden items-center gap-6 text-sm md:flex">
           <Link href="/pricing" className="hover:text-primary">

@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 const toolOptions = ["AWS", "GitHub", "Google Workspace", "Slack"];
 
 export function PolicyGeneratorForm() {
-  const [companyName, setCompanyName] = useState("ClearAudit Demo Co.");
+  const [companyName, setCompanyName] = useState("Talosly Demo Co.");
   const [employeeCount, setEmployeeCount] = useState("28");
   const [policyType, setPolicyType] = useState("Access Control");
   const [tools, setTools] = useState<string[]>(["AWS", "GitHub"]);

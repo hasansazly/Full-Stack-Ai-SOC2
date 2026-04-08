@@ -5,7 +5,7 @@ export function SiteFooter() {
     <footer className="mt-20 border-t border-white/70 bg-white/60">
       <div className="mx-auto grid max-w-7xl gap-8 px-6 py-10 md:grid-cols-[1.2fr_repeat(3,1fr)]">
         <div>
-          <p className="font-semibold">ClearAudit</p>
+          <p className="font-semibold">Talosly</p>
           <p className="mt-3 max-w-sm text-sm text-muted-foreground">
             Helping startups close enterprise deals faster by finding and fixing the security gaps buyers care about first.
           </p>
