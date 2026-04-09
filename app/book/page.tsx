@@ -1,49 +1,172 @@
-import { TrackedLinkButton } from "@/components/tracked-link-button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+'use client'
+
+import Link from 'next/link'
+
+const BOOKING_URL =
+  process.env.NEXT_PUBLIC_BOOKING_URL ||
+  'mailto:hello@talosly.com?subject=Readiness Review Request'
 
 export default function BookPage() {
-  const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_URL || "mailto:founders@talosly.com?subject=Readiness%20Review";
-
   return (
-    <main className="mx-auto max-w-5xl space-y-8 px-6 py-14">
-      <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">Readiness Review</p>
-        <h1 className="mt-2 font-display text-5xl">Book a 20-minute readiness review.</h1>
-        <p className="mt-4 text-muted-foreground">
-          Bring the questionnaire, the blocked deal, or the customer ask. We’ll map the fastest path from “not ready” to “credible answer.”
+    <main
+      style={{
+        minHeight: '100vh',
+        background: '#0a0a0a',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '40px 20px',
+        fontFamily: 'Inter, sans-serif',
+      }}
+    >
+      <div
+        style={{
+          maxWidth: '560px',
+          width: '100%',
+        }}
+      >
+        <Link
+          href="/"
+          style={{
+            fontSize: '13px',
+            color: '#888',
+            textDecoration: 'none',
+            display: 'inline-block',
+            marginBottom: '32px',
+          }}
+        >
+          ← Back to Talosly
+        </Link>
+
+        <p
+          style={{
+            fontSize: '12px',
+            fontWeight: 500,
+            color: '#6366f1',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            marginBottom: '12px',
+          }}
+        >
+          Readiness Review
+        </p>
+
+        <h1
+          style={{
+            fontSize: '32px',
+            fontWeight: 500,
+            color: '#ffffff',
+            lineHeight: 1.3,
+            marginBottom: '12px',
+          }}
+        >
+          Book a 20-minute readiness review.
+        </h1>
+
+        <p
+          style={{
+            fontSize: '15px',
+            color: '#888',
+            lineHeight: 1.7,
+            marginBottom: '36px',
+          }}
+        >
+          Bring the questionnaire, the blocked deal, or the customer ask. We will map the fastest
+          path from &quot;not ready&quot; to &quot;credible answer.&quot;
+        </p>
+
+        <div
+          style={{
+            background: '#141414',
+            border: '1px solid #2a2a2a',
+            borderRadius: '12px',
+            padding: '24px',
+            marginBottom: '28px',
+          }}
+        >
+          <p
+            style={{
+              fontSize: '13px',
+              fontWeight: 500,
+              color: '#ffffff',
+              marginBottom: '16px',
+            }}
+          >
+            What we cover
+          </p>
+          {[
+            'The specific controls your buyer is likely stuck on',
+            'Whether AWS and GitHub evidence can answer the question directly',
+            'Which gaps are genuine blockers versus paperwork noise',
+            'What to remediate now versus what can wait until SOC 2',
+          ].map((item, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '10px',
+                padding: '8px 0',
+                borderTop: i === 0 ? 'none' : '1px solid #2a2a2a',
+              }}
+            >
+              <span
+                style={{
+                  color: '#6366f1',
+                  fontSize: '14px',
+                  marginTop: '1px',
+                  flexShrink: 0,
+                }}
+              >
+                ✓
+              </span>
+              <span
+                style={{
+                  fontSize: '14px',
+                  color: '#aaa',
+                  lineHeight: 1.5,
+                }}
+              >
+                {item}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <a
+          href={BOOKING_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'block',
+            width: '100%',
+            padding: '16px',
+            background: '#6366f1',
+            color: '#ffffff',
+            fontSize: '15px',
+            fontWeight: 500,
+            textAlign: 'center',
+            textDecoration: 'none',
+            borderRadius: '10px',
+            marginBottom: '12px',
+            transition: 'background 0.15s',
+          }}
+          onMouseOver={(e) => (e.currentTarget.style.background = '#5558e3')}
+          onMouseOut={(e) => (e.currentTarget.style.background = '#6366f1')}
+        >
+          Book now
+        </a>
+
+        <p
+          style={{
+            fontSize: '12px',
+            color: '#555',
+            textAlign: 'center',
+          }}
+        >
+          20 minutes. No sales pitch. Just the gaps that matter.
         </p>
       </div>
-      <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
-        <Card>
-          <CardHeader>
-            <CardTitle>What we cover</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 text-sm text-muted-foreground">
-            <p>- The specific controls your buyer is likely stuck on</p>
-            <p>- Whether AWS and GitHub evidence can answer the question directly</p>
-            <p>- Which gaps are genuine blockers versus paperwork noise</p>
-            <p>- What to remediate now versus what can wait until SOC 2</p>
-          </CardContent>
-        </Card>
-        <Card className="grain">
-          <CardHeader>
-            <CardTitle>Book now</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Connect your real booking URL through `NEXT_PUBLIC_BOOKING_URL`, or use the email fallback to schedule directly.
-            </p>
-            <TrackedLinkButton
-              href={bookingUrl}
-              event="book_call_clicked"
-              size="lg"
-              className="w-full"
-            >
-              Book now
-            </TrackedLinkButton>
-          </CardContent>
-        </Card>
-      </div>
     </main>
-  );
+  )
 }

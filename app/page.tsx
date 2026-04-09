@@ -60,7 +60,7 @@ const competitorRows = [
   ["Identifies compliance gaps", "Yes", "Yes", "Yes", "Yes"],
   ["Auto-remediates cloud and GitHub controls", "Yes", "No", "No", "No"],
   ["Generates exact CLI/API fix", "Yes", "No", "No", "Partial"],
-  ["Signs report path in one platform", "Yes", "No", "No", "No"]
+  ["Provides a CPA-ready signed report path", "Yes", "No", "No", "No"]
 ];
 
 const socialProofStats = [
@@ -78,24 +78,6 @@ const socialProofStats = [
     label: "Proof model",
     value: "Evidence + fixes",
     detail: "Findings tied to exact remediation payloads and an approval-based audit trail."
-  }
-];
-
-const proofArtifacts = [
-  {
-    title: "Customer quote",
-    body: "Use a real founder or CTO quote here describing how Talosly clarified the actual blocker and shortened the response cycle.",
-    meta: "Replace with real testimonial"
-  },
-  {
-    title: "Logo strip",
-    body: "Add real design partner logos or anonymized wordmarks here. Even 3 credible names will materially improve trust.",
-    meta: "Replace with real logos"
-  },
-  {
-    title: "Case study snippet",
-    body: "Example: Buyer security review was blocked on branch protection and privileged access. Talosly identified the gaps, generated the fixes, and produced the evidence trail for the follow-up review.",
-    meta: "Replace with one real outcome"
   }
 ];
 
@@ -209,33 +191,17 @@ gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-prote
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-10">
-        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <Card className="border-white/10 bg-[#141414]">
-            <CardContent className="grid gap-4 p-6 md:grid-cols-3">
-              {socialProofStats.map((item) => (
-                <div key={item.label}>
-                  <p className="text-2xl font-medium text-white">{item.value}</p>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-300">{item.label}</p>
-                  <p className="mt-2 text-sm text-slate-400">{item.detail}</p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-          <Card className="border-white/10 bg-[#141414]">
-            <CardHeader>
-              <CardTitle className="text-white">Proof section</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {proofArtifacts.map((item) => (
-                <div key={item.title} className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-300">{item.title}</p>
-                  <p className="mt-2 text-sm text-slate-300">{item.body}</p>
-                  <p className="mt-3 text-xs uppercase tracking-[0.18em] text-slate-500">{item.meta}</p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
+        <Card className="border-white/10 bg-[#141414]">
+          <CardContent className="grid gap-4 p-6 md:grid-cols-3">
+            {socialProofStats.map((item) => (
+              <div key={item.label}>
+                <p className="text-2xl font-medium text-white">{item.value}</p>
+                <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-300">{item.label}</p>
+                <p className="mt-2 text-sm text-slate-400">{item.detail}</p>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16">
