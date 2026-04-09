@@ -7,23 +7,47 @@ const tiers = [
   {
     name: "Free Scan",
     price: "$0",
-    bestFor: "Best for founders validating whether a live deal is blocked on buyer security review.",
-    description: "Best for founders who want to see likely enterprise blockers before a real buyer review.",
-    bullets: ["Sample workspace", "AWS + GitHub scan", "Core findings and evidence view", "Questionnaire answer preview"]
+    label: "Start here",
+    description: "For founders who want to see their actual blockers before a buyer call. No commitment.",
+    bullets: [
+      "AWS + GitHub evidence collection",
+      "Core gap findings for CC6 and CC8",
+      "Questionnaire-ready findings summary",
+      "Sample remediation payloads"
+    ],
+    cta: "Run free scan",
+    href: "/demo"
   },
   {
     name: "Readiness Sprint",
-    price: "$1.5k-$4k",
-    bestFor: "Best for teams with an active buyer, questionnaire, or security call on the calendar.",
-    description: "A short engagement to identify gaps, prioritize fixes, and prep for a live buyer security review.",
-    bullets: ["Hands-on readiness review", "Top blocker remediation plan", "Policy and questionnaire support", "Founder-friendly implementation guidance"]
+    price: "$2,500",
+    label: "Most common",
+    description: "For teams with a live deal, an active questionnaire, or a security call on the calendar.",
+    bullets: [
+      "Everything in Free Scan",
+      "Full gap analysis across all CC criteria",
+      "Exact remediation code for every auto-fixable gap",
+      "AI-generated policies (CC1, CC6, CC8)",
+      "Questionnaire response drafts",
+      "One 60-minute remediation walkthrough call"
+    ],
+    cta: "Book a sprint",
+    href: "/book"
   },
   {
-    name: "Managed Remediation / Audit Prep",
-    price: "Custom",
-    bestFor: "Best for companies turning repeated buyer friction into a durable trust program.",
-    description: "For teams that need sustained help getting from blocked deal to audit-ready operating baseline.",
-    bullets: ["Managed follow-through on findings", "Security review response support", "Change-management and access-control hardening", "Prep for SOC 2 and procurement follow-ups"]
+    name: "Managed Audit Prep",
+    price: "$8,000/mo",
+    label: "For growing teams",
+    description: "For companies turning repeated buyer friction into a durable compliance program.",
+    bullets: [
+      "Everything in Readiness Sprint",
+      "Continuous evidence monitoring",
+      "Full SOC 2 evidence package",
+      "CPA-ready report pathway",
+      "Slack access to founder"
+    ],
+    cta: "Talk to us",
+    href: "/book"
   }
 ];
 
@@ -43,13 +67,18 @@ export default function PricingPage() {
             <CardHeader>
               <CardTitle>{tier.name}</CardTitle>
               <p className="mt-3 text-4xl font-semibold">{tier.price}</p>
-              <p className="text-sm font-medium text-foreground">{tier.bestFor}</p>
+              <p className="text-sm font-medium text-primary">{tier.label}</p>
               <p className="text-sm text-muted-foreground">{tier.description}</p>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-muted-foreground">
               {tier.bullets.map((bullet) => (
                 <p key={bullet}>- {bullet}</p>
               ))}
+              <div className="pt-2">
+                <TrackedLinkButton href={tier.href} event={tier.href === "/demo" ? "homepage_cta_secondary_clicked" : "book_call_clicked"} size="sm">
+                  {tier.cta}
+                </TrackedLinkButton>
+              </div>
             </CardContent>
           </Card>
         ))}

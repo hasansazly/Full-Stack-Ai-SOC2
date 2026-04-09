@@ -37,22 +37,43 @@ const agentSteps = [
 
 const pricing = [
   {
-    tier: "Readiness SaaS",
-    price: "$500/mo",
-    includes: "Dashboard, gap reports, policy templates",
-    bestFor: "Best for teams with a live buyer questionnaire and no formal trust workflow yet."
+    tier: "Free Scan",
+    price: "$0",
+    label: "Start here",
+    description: "For founders who want to see their actual blockers before a buyer call. No commitment.",
+    includes: [
+      "AWS + GitHub evidence collection",
+      "Core gap findings for CC6 and CC8",
+      "Questionnaire-ready findings summary",
+      "Sample remediation payloads"
+    ]
   },
   {
-    tier: "Managed Compliance",
-    price: "$5,000/mo",
-    includes: "Deterministic remediation workflows + agent monitoring",
-    bestFor: "Best for startups that need hands-on help closing control gaps before enterprise pilots expand."
+    tier: "Readiness Sprint",
+    price: "$2,500",
+    label: "Most common",
+    description: "For teams with a live deal, an active questionnaire, or a security call on the calendar.",
+    includes: [
+      "Everything in Free Scan",
+      "Full gap analysis across all CC criteria",
+      "Exact remediation code for every auto-fixable gap",
+      "AI-generated policies (CC1, CC6, CC8)",
+      "Questionnaire response drafts",
+      "One 60-minute remediation walkthrough call"
+    ]
   },
   {
-    tier: "Guaranteed Audit",
-    price: "$30,000 flat",
-    includes: "Structured readiness program + CPA-ready signed report path",
-    bestFor: "Best for teams ready to run a tight audit timeline with shared onboarding and remediation discipline."
+    tier: "Managed Audit Prep",
+    price: "$8,000/mo",
+    label: "For growing teams",
+    description: "For companies turning repeated buyer friction into a durable compliance program.",
+    includes: [
+      "Everything in Readiness Sprint",
+      "Continuous evidence monitoring",
+      "Full SOC 2 evidence package",
+      "CPA-ready report pathway",
+      "Slack access to founder"
+    ]
   }
 ];
 
@@ -63,25 +84,8 @@ const competitorRows = [
   ["Provides a CPA-ready signed report path", "Yes", "No", "No", "No"]
 ];
 
-const socialProofStats = [
-  {
-    label: "Blocked deal wedge",
-    value: "$200k+",
-    detail: "Typical enterprise deal size where security review friction starts to matter."
-  },
-  {
-    label: "First control wedge",
-    value: "CC6 + CC8",
-    detail: "Logical access and change management controls buyers ask about first."
-  },
-  {
-    label: "Proof model",
-    value: "Evidence + fixes",
-    detail: "Findings tied to exact remediation payloads and an approval-based audit trail."
-  }
-];
-
 const trustLinks = [
+  { href: "/demo", label: "Demo" },
   { href: "/trust", label: "Trust" },
   { href: "/security", label: "Security" },
   { href: "/pricing", label: "Pricing" },
@@ -99,10 +103,17 @@ export default function LandingPage() {
               <div className="rounded-2xl border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-indigo-300">
                 Talosly
               </div>
-              <span className="text-xs uppercase tracking-[0.22em] text-slate-500">Trust readiness for blocked enterprise deals</span>
+              <span className="text-xs uppercase tracking-[0.22em] text-slate-500">SOC 2 that fixes gaps — not just flags them</span>
             </div>
             <nav className="flex flex-wrap items-center gap-4">
-              {trustLinks.map((item) => (
+              <Link
+                href="/demo"
+                className="flex items-center gap-1 text-sm font-medium text-indigo-300 transition hover:text-white"
+              >
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-indigo-500" />
+                Demo
+              </Link>
+              {trustLinks.slice(1).map((item) => (
                 <Link key={item.href} href={item.href} className="transition hover:text-white">
                   {item.label}
                 </Link>
@@ -120,7 +131,7 @@ export default function LandingPage() {
               Close Your Enterprise Deal. SOC 2 in 6 Weeks, Guaranteed.
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-slate-300">
-              Talosly finds the security controls blocking enterprise deals, generates the exact fixes, and gives you the evidence trail to move faster.
+              Talosly connects to your AWS and GitHub, flags the exact controls blocking your enterprise deal, and generates the remediation code to fix them. The only platform that goes from evidence to signed audit trail in one workflow.
             </p>
             <p className="mt-4 max-w-2xl text-sm text-slate-400">
               For startups selling into enterprise on AWS and GitHub.
@@ -196,18 +207,198 @@ gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-prote
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-10">
-        <Card className="border-white/10 bg-[#141414]">
-          <CardContent className="grid gap-4 p-6 md:grid-cols-3">
-            {socialProofStats.map((item) => (
-              <div key={item.label}>
-                <p className="text-2xl font-medium text-white">{item.value}</p>
-                <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-indigo-300">{item.label}</p>
-                <p className="mt-2 text-sm text-slate-400">{item.detail}</p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+      <section
+        style={{
+          margin: "80px 0",
+          padding: "0 24px",
+          maxWidth: "860px",
+          marginLeft: "auto",
+          marginRight: "auto"
+        }}
+      >
+        <p
+          style={{
+            fontSize: "11px",
+            fontWeight: 500,
+            color: "#6366f1",
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            marginBottom: "40px",
+            textAlign: "center"
+          }}
+        >
+          Early design partners
+        </p>
+
+        <div
+          style={{
+            background: "#141414",
+            border: "1px solid #2a2a2a",
+            borderRadius: "14px",
+            padding: "32px",
+            marginBottom: "16px",
+            position: "relative"
+          }}
+        >
+          <div
+            style={{
+              fontSize: "36px",
+              color: "#6366f1",
+              lineHeight: 1,
+              marginBottom: "16px",
+              opacity: 0.6
+            }}
+          >
+            "
+          </div>
+          <p
+            style={{
+              fontSize: "17px",
+              color: "#ffffff",
+              lineHeight: 1.7,
+              marginBottom: "24px",
+              fontStyle: "italic",
+              maxWidth: "640px"
+            }}
+          >
+            We had a $180k deal stalled for three weeks on a vendor security questionnaire. Talosly identified the two actual blockers in 20 minutes — branch protection and a missing MFA policy — and generated the exact fixes. We answered the questionnaire that afternoon.
+          </p>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px"
+            }}
+          >
+            <div
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                background: "#1a1a2d",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "13px",
+                fontWeight: 500,
+                color: "#6366f1"
+              }}
+            >
+              SC
+            </div>
+            <div>
+              <p
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  color: "#ffffff",
+                  margin: 0
+                }}
+              >
+                S.C., CTO
+              </p>
+              <p
+                style={{
+                  fontSize: "12px",
+                  color: "#555",
+                  margin: 0
+                }}
+              >
+                B2B SaaS startup — $180k deal unblocked
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "32px",
+            padding: "28px",
+            background: "#0f0f0f",
+            border: "1px solid #1a1a1a",
+            borderRadius: "10px",
+            marginBottom: "16px",
+            flexWrap: "wrap"
+          }}
+        >
+          <span
+            style={{
+              fontSize: "11px",
+              color: "#333",
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              marginRight: "8px"
+            }}
+          >
+            Design partners
+          </span>
+          {[
+            "Stealth SaaS A",
+            "Stealth SaaS B",
+            "Stealth SaaS C"
+          ].map((name) => (
+            <span
+              key={name}
+              style={{
+                fontSize: "13px",
+                color: "#444",
+                fontWeight: 500,
+                padding: "4px 14px",
+                border: "1px solid #1a1a1a",
+                borderRadius: "6px"
+              }}
+            >
+              {name}
+            </span>
+          ))}
+        </div>
+
+        <div
+          style={{
+            background: "#141414",
+            border: "1px solid #2a2a2a",
+            borderRadius: "10px",
+            padding: "20px 24px",
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "16px"
+          }}
+        >
+          <span
+            style={{
+              fontSize: "20px",
+              flexShrink: 0,
+              marginTop: "2px"
+            }}
+          >
+            📋
+          </span>
+          <div>
+            <p
+              style={{
+                fontSize: "13px",
+                fontWeight: 500,
+                color: "#ffffff",
+                marginBottom: "4px"
+              }}
+            >
+              Deal unblocked in 72 hours
+            </p>
+            <p
+              style={{
+                fontSize: "13px",
+                color: "#666",
+                lineHeight: 1.6,
+                margin: 0
+              }}
+            >
+              Enterprise buyer required branch protection evidence and a privileged access report. Talosly collected the evidence, flagged 4 gaps, generated remediation payloads for 3 of them, and produced a questionnaire-ready summary in one session.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16">
@@ -278,13 +469,26 @@ gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-prote
                   <td className="px-4 py-4 font-medium text-white">{tier.tier}</td>
                   <td className="px-4 py-4 text-slate-300">{tier.price}</td>
                   <td className="px-4 py-4 text-slate-300">
-                    <p>{tier.includes}</p>
-                    <p className="mt-2 text-xs text-slate-500">{tier.bestFor}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-300">{tier.label}</p>
+                    <p className="mt-2">{tier.description}</p>
+                    <ul className="mt-3 space-y-2 text-xs text-slate-400">
+                      {tier.includes.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <TrackedLinkButton href="/demo" event="homepage_cta_secondary_clicked">
+            Try free scan
+          </TrackedLinkButton>
+          <TrackedLinkButton href="/book" event="book_call_clicked" variant="outline" className="border-white/10 bg-transparent text-white hover:bg-white/5">
+            Book a sprint
+          </TrackedLinkButton>
         </div>
       </section>
 
@@ -339,7 +543,14 @@ gh api repos/ORG/REPO/branches/main/protection --method PUT --input branch-prote
             <CardTitle className="text-white">Competitor Reality</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 text-sm text-slate-300">
-            <p>Vanta, Drata, and Comp.ai can tell you there is a problem. Talosly generates the exact fix and captures the evidence trail around it.</p>
+            <div className="mx-auto max-w-[600px] text-center">
+              <p className="mb-4 text-[15px] leading-7 text-[#666]">
+                Vanta, Drata, and Comp.ai can tell you there is a problem. Talosly generates the exact fix and captures the evidence trail around it.
+              </p>
+              <p className="text-sm leading-7 text-[#444]">
+                Adding auto-remediation to a monitoring dashboard requires taking liability for live customer infrastructure changes — something a late-stage, compliance-certified company will not ship. Talosly is built from day one with the human-in-the-loop approval model and tamper-evident evidence spine that makes this defensible. That is not a feature gap. That is a structural difference.
+              </p>
+            </div>
           </CardContent>
         </Card>
       </section>
