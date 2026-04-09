@@ -1,98 +1,147 @@
 import { NextResponse } from "next/server";
 
-import { collectAwsIamEvidence } from "@/lib/awsCollector";
-import { sha256Json } from "@/lib/checksum";
-import { buildGapFindings, persistGapFindings } from "@/lib/gapEngine";
-import { collectGithubEvidence } from "@/lib/githubCollector";
+import { collectAwsEvidence, INVALID_AWS_CREDENTIAL_ERRORS, type CollectedEvidence } from "@/lib/aws/collect";
+import { collectGithubEvidence } from "@/lib/github/collect";
+import { hashContent } from "@/lib/hash";
+import { createAdminSupabaseClient } from "@/lib/supabase";
 import { createClient } from "@/lib/supabase/server";
 
-async function getCurrentClientId() {
+async function authenticateClient(clientId: string) {
   const supabase = createClient();
   const {
-    data: { user }
+    data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error("Unauthorized");
+    return { error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }) };
   }
 
-  const { data: client } = await supabase.from("clients").select("id").eq("user_id", user.id).maybeSingle();
+  const { data: client } = await supabase
+    .from("clients")
+    .select("id")
+    .eq("id", clientId)
+    .eq("user_id", user.id)
+    .maybeSingle();
+
   if (!client?.id) {
-    throw new Error("Client not found");
+    return { error: NextResponse.json({ error: "Forbidden" }, { status: 403 }) };
   }
 
-  return { supabase, user, clientId: client.id };
+  return { user, clientId: client.id };
 }
+
 export async function POST(request: Request) {
   try {
-    const { supabase, clientId } = await getCurrentClientId();
     const body = (await request.json()) as {
-      aws_access_key?: string;
-      aws_secret_key?: string;
+      aws_access_key_id?: string;
+      aws_secret_access_key?: string;
       github_token?: string;
       github_org?: string;
+      github_repo?: string;
+      client_id?: string;
     };
 
-    if (!body.aws_access_key || !body.aws_secret_key || !body.github_token || !body.github_org) {
-      return NextResponse.json({ error: "Missing credentials or GitHub org." }, { status: 400 });
+    const requiredFields = [
+      "aws_access_key_id",
+      "aws_secret_access_key",
+      "github_token",
+      "github_org",
+      "github_repo",
+      "client_id",
+    ] as const;
+
+    for (const field of requiredFields) {
+      if (!body[field]) {
+        return NextResponse.json({ error: `Missing required field: ${field}` }, { status: 400 });
+      }
     }
 
-    const artifacts: Array<Record<string, string>> = [];
-    const [awsSummary, githubSummary] = await Promise.all([
-      collectAwsIamEvidence({
-        accessKeyId: body.aws_access_key,
-        secretAccessKey: body.aws_secret_key,
-        region: "us-east-1",
-      }),
-      collectGithubEvidence({
-        token: body.github_token,
-        org: body.github_org,
-      }),
-    ]);
-
-    const awsContent = JSON.stringify(awsSummary, null, 2);
-    const awsChecksum = sha256Json(awsSummary);
-    artifacts.push({
-      client_id: clientId,
-      control: "CC6",
-      source: "AWS_IAM",
-      collected_at: new Date().toISOString(),
-      content_hash: awsChecksum,
-      checksum: awsChecksum,
-      raw_content: Buffer.from(awsContent).toString("base64"),
-      raw_data: awsSummary,
-      artifact_type: "iam_scan_summary",
-    } as unknown as Record<string, string>);
-
-    const githubContent = JSON.stringify(githubSummary, null, 2);
-    const githubChecksum = sha256Json(githubSummary);
-    artifacts.push({
-      client_id: clientId,
-      control: "CC8",
-      source: "GITHUB_BRANCH",
-      collected_at: new Date().toISOString(),
-      content_hash: githubChecksum,
-      checksum: githubChecksum,
-      raw_content: Buffer.from(githubContent).toString("base64"),
-      raw_data: githubSummary,
-      artifact_type: "github_branch_audit",
-    } as unknown as Record<string, string>);
-
-    const { data: insertedArtifacts, error } = await supabase.from("evidence_artifacts").insert(artifacts).select("*");
-    if (error) {
-      throw new Error(error.message);
+    const authResult = await authenticateClient(body.client_id!);
+    if ("error" in authResult) {
+      return authResult.error;
     }
-    const findings = buildGapFindings(clientId, awsSummary, githubSummary);
-    const persistedFindings = await persistGapFindings(findings);
+
+    let awsEvidence: CollectedEvidence[] = [];
+    try {
+      const awsResult = await collectAwsEvidence({
+        awsAccessKeyId: body.aws_access_key_id!,
+        awsSecretAccessKey: body.aws_secret_access_key!,
+      });
+      awsEvidence = awsResult.evidenceItems;
+    } catch (error) {
+      const errorName =
+        typeof error === "object" && error !== null && "name" in error ? String((error as { name?: string }).name) : "";
+      if (INVALID_AWS_CREDENTIAL_ERRORS.has(errorName)) {
+        return NextResponse.json({ error: "Invalid AWS credentials" }, { status: 400 });
+      }
+      if (errorName === "AccessDenied") {
+        return NextResponse.json(
+          { error: "AWS access denied. Ensure SecurityAudit policy is attached to this IAM user." },
+          { status: 400 },
+        );
+      }
+      return NextResponse.json(
+        { error: `AWS error: ${error instanceof Error ? error.message : "Unknown AWS error"}` },
+        { status: 500 },
+      );
+    }
+
+    let githubEvidence: CollectedEvidence[] = [];
+    try {
+      const githubResult = await collectGithubEvidence({
+        githubToken: body.github_token!,
+        githubOrg: body.github_org!,
+        githubRepo: body.github_repo!,
+      });
+      githubEvidence = githubResult.evidenceItems;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown GitHub error";
+      if (message === "Invalid GitHub token") {
+        return NextResponse.json({ error: "Invalid GitHub token" }, { status: 400 });
+      }
+      if (message.startsWith("GitHub repo not found:")) {
+        return NextResponse.json({ error: message }, { status: 400 });
+      }
+      if (message.startsWith("GitHub error:")) {
+        return NextResponse.json({ error: message }, { status: 500 });
+      }
+      return NextResponse.json({ error: `GitHub error: ${message}` }, { status: 500 });
+    }
+
+    const adminSupabase = createAdminSupabaseClient();
+    if (!adminSupabase) {
+      return NextResponse.json({ error: "SUPABASE_SERVICE_KEY is not configured" }, { status: 500 });
+    }
+
+    const collectedAt = new Date().toISOString();
+    const artifacts = await Promise.all(
+      [...awsEvidence, ...githubEvidence].map(async (item) => ({
+        client_id: authResult.clientId,
+        control: item.control,
+        source: item.source,
+        collected_at: collectedAt,
+        content_hash: await hashContent(item.raw_content),
+        raw_content: item.raw_content,
+      })),
+    );
+
+    const { error } = await adminSupabase.from("evidence_artifacts").insert(artifacts);
+    if (error) throw new Error(error.message);
+
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || new URL(request.url).origin;
+    await fetch(`${appUrl}/api/analyze-gaps`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Cookie: request.headers.get("cookie") || "",
+      },
+      body: JSON.stringify({ client_id: authResult.clientId }),
+    });
 
     return NextResponse.json({
       success: true,
-      artifacts_collected: insertedArtifacts?.length || 0,
-      gaps_found: persistedFindings.length || 0,
-      summary: {
-        aws: awsSummary,
-        github: githubSummary,
-      },
+      artifacts_collected: artifacts.length,
+      message: "Evidence collected and gap analysis started",
     });
   } catch (error) {
     return NextResponse.json(
