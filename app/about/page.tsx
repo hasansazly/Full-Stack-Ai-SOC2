@@ -43,7 +43,7 @@ const founderSection = (
           flexShrink: 0
         }}
       >
-        YF
+        AS
       </div>
 
       <div style={{ flex: 1, minWidth: "240px" }}>
@@ -64,10 +64,18 @@ const founderSection = (
               margin: 0
             }}
           >
-            [Founder Name]
+            Abu Hasan Sazly Sarkar
           </h2>
+          <span
+            style={{
+              fontSize: "12px",
+              color: "#888"
+            }}
+          >
+            Founder, Talosly
+          </span>
           <a
-            href="https://linkedin.com/in/YOURPROFILE"
+            href="https://www.linkedin.com/in/abu-hasan-sazly-sarkar-b245a424b/"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -102,7 +110,7 @@ const founderSection = (
             maxWidth: "560px"
           }}
         >
-          [REPLACE WITH: 1 sentence on your background. 1 sentence on why you experienced this pain personally. 1 sentence on why you are the right person to build this.]
+          Abu Hasan Sazly Sarkar is the founder of Talosly, building the trust layer for startups selling into enterprise. He started the company to solve a simple problem: too many great products lose deals because security reviews are slow, manual, and broken. He studies Computer Science at Temple University and is focused on making trust fast, verifiable, and software-driven.
         </p>
 
         <div
@@ -113,9 +121,9 @@ const founderSection = (
           }}
         >
           {[
+            "Computer Science",
             "B2B SaaS",
-            "Enterprise compliance",
-            "AWS infrastructure"
+            "Trust infrastructure"
           ].map((tag) => (
             <span
               key={tag}
