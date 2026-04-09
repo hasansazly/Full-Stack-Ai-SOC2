@@ -55,7 +55,7 @@ export default function PricingPage() {
         ))}
       </div>
       <div className="flex flex-wrap gap-4">
-        <TrackedLinkButton href="/dashboard?mode=sample" event="homepage_cta_secondary_clicked" size="lg">
+        <TrackedLinkButton href="/demo" event="homepage_cta_secondary_clicked" size="lg">
           Try the free scan
         </TrackedLinkButton>
         <TrackedLinkButton href="/book" event="book_call_clicked" variant="outline" size="lg">

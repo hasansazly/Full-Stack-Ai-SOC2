@@ -138,6 +138,12 @@ export default function LandingPage() {
               >
                 Talk to us about a blocked deal
               </TrackedLinkButton>
+              <Link
+                href="/demo"
+                className="inline-flex items-center rounded-lg px-4 py-2 text-sm font-medium text-indigo-300 transition hover:text-white"
+              >
+                See a live demo →
+              </Link>
             </div>
             <div className="mt-5 max-w-2xl rounded-2xl border border-indigo-500/20 bg-indigo-500/10 p-4 text-sm text-indigo-100">
               “Guaranteed” means Talosly commits to a six-week readiness plan when the client completes onboarding, grants required evidence access, and executes approved remediation work on schedule.
