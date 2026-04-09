@@ -60,7 +60,7 @@ export default function BookPage() {
             marginBottom: '12px',
           }}
         >
-          Book a 20-minute readiness review.
+          Book a 30-minute readiness review.
         </h1>
 
         <p
@@ -164,7 +164,7 @@ export default function BookPage() {
             textAlign: 'center',
           }}
         >
-          20 minutes. No sales pitch. Just the gaps that matter.
+          30 minutes. No sales pitch. Just the gaps that matter.
         </p>
       </div>
     </main>
