@@ -1,99 +1,202 @@
-import Link from "next/link";
+'use client'
 
-import { TrackedLinkButton } from "@/components/tracked-link-button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { Check, ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 const tiers = [
   {
     name: "Free Scan",
     price: "$0",
-    label: "Start here",
-    description: "For founders who want to see their actual blockers before a buyer call. No commitment.",
-    bullets: [
+    badge: "Start here",
+    description: "For founders who want to see their actual blockers before a buyer call.",
+    features: [
       "AWS + GitHub evidence collection",
-      "Core gap findings for CC6 and CC8",
-      "Questionnaire-ready findings summary",
-      "Sample remediation payloads"
+      "CC6 and CC8 gap findings",
+      "Exact remediation code for each gap",
+      "Questionnaire-ready findings summary"
     ],
     cta: "Run free scan",
-    href: "/demo"
+    href: "/demo",
+    featured: false
   },
   {
     name: "Readiness Sprint",
     price: "$2,500",
-    label: "Most common",
-    description: "For teams with a live deal, an active questionnaire, or a security call on the calendar.",
-    bullets: [
+    badge: "Most popular",
+    description: "For teams with a live deal, active questionnaire, or security call on the calendar.",
+    features: [
       "Everything in Free Scan",
-      "Full gap analysis across all CC criteria",
-      "Exact remediation code for every auto-fixable gap",
-      "AI-generated policies (CC1, CC6, CC8)",
+      "Full gap analysis across all 9 CC criteria",
+      "AI-generated policies for CC1, CC6, CC8",
       "Questionnaire response drafts",
-      "One 60-minute remediation walkthrough call"
+      "One 60-min remediation walkthrough call",
+      "Slack access to founder during sprint"
     ],
     cta: "Book a sprint",
-    href: "/book"
+    href: "/book",
+    featured: true
   },
   {
-    name: "Managed Audit Prep",
+    name: "Audit Prep",
     price: "$8,000/mo",
-    label: "For growing teams",
+    badge: "For growing teams",
     description: "For companies turning repeated buyer friction into a durable compliance program.",
-    bullets: [
+    features: [
       "Everything in Readiness Sprint",
       "Continuous evidence monitoring",
       "Full SOC 2 evidence package",
       "CPA-ready report pathway",
-      "Slack access to founder"
+      "Monthly compliance review call"
     ],
     cta: "Talk to us",
-    href: "/book"
+    href: "/book",
+    featured: false
+  }
+];
+
+const revenueRows = [
+  ["Engineering time", "400 hrs @ $150/hr = $60k", "~20 hours"],
+  ["Deal slippage (4-6 mo)", "$66k-$100k lost", "6-8 weeks"],
+  ["Outside legal/compliance", "$15k-$25k", "Included"],
+  ["Audit firm (standalone)", "$40k-$80k", "Included"],
+  ["Total hidden cost", "$181k-$265k", "—"],
+  ["Our fee", "—", "$2,500"],
+  ["Net savings", "—", "$178k-$262k"]
+];
+
+const faqItems = [
+  {
+    question: "Do you store my AWS or GitHub credentials?",
+    answer: "Never. Credentials are used in the request and immediately discarded. We store only the evidence artifacts — the data we collected, not the keys used to collect it."
+  },
+  {
+    question: "Can Talosly make changes to my AWS account without my approval?",
+    answer: "No. Every remediation requires explicit approval from you. We generate the command. You review it. You approve it. Nothing runs without your confirmation."
+  },
+  {
+    question: "What if we already have Vanta?",
+    answer: "Vanta tells you there is a problem. Talosly fixes it. They are complementary. Most teams use Vanta for monitoring and Talosly for the specific gaps blocking a live deal."
+  },
+  {
+    question: "How long does a readiness sprint take?",
+    answer: "Most sprints complete in 5-7 days. The free scan takes 60 seconds. The remediation walkthrough call is 60 minutes. The rest is async."
   }
 ];
 
 export default function PricingPage() {
+  const [openQuestion, setOpenQuestion] = useState<string | null>(faqItems[0]?.question ?? null);
+
   return (
-    <main className="mx-auto max-w-7xl space-y-10 px-6 py-14">
-      <div className="max-w-3xl">
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-primary">Pricing</p>
-        <h1 className="mt-2 font-display text-5xl">Start free, then pay for momentum.</h1>
-        <p className="mt-4 text-muted-foreground">
-          Talosly is designed for teams that need to unblock revenue now, not six months from now.
-        </p>
-      </div>
-      <div className="grid gap-6 lg:grid-cols-3">
-        {tiers.map((tier) => (
-          <Card key={tier.name} className="grain">
-            <CardHeader>
-              <CardTitle>{tier.name}</CardTitle>
-              <p className="mt-3 text-4xl font-semibold">{tier.price}</p>
-              <p className="text-sm font-medium text-primary">{tier.label}</p>
-              <p className="text-sm text-muted-foreground">{tier.description}</p>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm text-muted-foreground">
-              {tier.bullets.map((bullet) => (
-                <p key={bullet}>- {bullet}</p>
-              ))}
-              <div className="pt-2">
-                <TrackedLinkButton href={tier.href} event={tier.href === "/demo" ? "homepage_cta_secondary_clicked" : "book_call_clicked"} size="sm">
-                  {tier.cta}
-                </TrackedLinkButton>
+    <motion.main
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="bg-[var(--bg)]"
+    >
+      <section className="mx-auto max-w-6xl px-6 pb-16 pt-20">
+        <div className="max-w-3xl">
+          <p className="text-xs font-medium uppercase tracking-[0.22em] text-[var(--indigo)]">Pricing</p>
+          <h1 className="mt-4 text-4xl font-semibold leading-tight text-[var(--text-primary)] sm:text-6xl">
+            Start free. Pay when it works.
+          </h1>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]">
+            See your real gaps before you commit to anything.
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-3">
+          {tiers.map((tier) => (
+            <div
+              key={tier.name}
+              className={`rounded-[var(--radius-lg)] border bg-[var(--bg-card)] p-6 ${
+                tier.featured
+                  ? "scale-[1.02] border-[var(--indigo)] shadow-[0_0_0_1px_var(--indigo),0_0_40px_rgba(99,102,241,0.08)]"
+                  : "border-[var(--border)]"
+              }`}
+            >
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-xl font-semibold text-[var(--text-primary)]">{tier.name}</p>
+                <span className="rounded-full border border-[var(--border-bright)] bg-[var(--indigo-dim)] px-3 py-1 text-xs text-[var(--indigo)]">
+                  {tier.badge}
+                </span>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-      <div className="flex flex-wrap gap-4">
-        <TrackedLinkButton href="/demo" event="homepage_cta_secondary_clicked" size="lg">
-          Try the free scan
-        </TrackedLinkButton>
-        <TrackedLinkButton href="/book" event="book_call_clicked" variant="outline" size="lg">
-          Talk through your deal blockers
-        </TrackedLinkButton>
-      </div>
-      <p className="text-sm text-muted-foreground">
-        Need procurement-friendly paperwork first? Start on the <Link href="/trust" className="text-primary">trust page</Link>.
-      </p>
-    </main>
+              <p className="mt-5 text-4xl font-semibold text-[var(--text-primary)]">{tier.price}</p>
+              <p className="mt-4 min-h-[72px] text-sm leading-7 text-[var(--text-secondary)]">{tier.description}</p>
+              <div className="mt-6 space-y-3">
+                {tier.features.map((feature) => (
+                  <div key={feature} className="flex items-start gap-3 text-sm text-[var(--text-secondary)]">
+                    <Check className="mt-0.5 h-4 w-4 text-[var(--green)]" />
+                    <span>{feature}</span>
+                  </div>
+                ))}
+              </div>
+              <Link
+                href={tier.href}
+                className={`mt-8 inline-flex w-full items-center justify-center rounded-[var(--radius)] px-4 py-3 text-sm font-medium transition ${
+                  tier.featured
+                    ? "bg-[var(--indigo)] text-white hover:bg-[var(--indigo-hover)]"
+                    : "border border-[var(--border-bright)] text-[var(--text-primary)] hover:bg-[var(--bg-hover)]"
+                }`}
+              >
+                {tier.cta}
+              </Link>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pb-16">
+        <div className="rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] p-6">
+          <h2 className="text-3xl font-semibold text-[var(--text-primary)]">The math is simple.</h2>
+          <div className="mt-8 overflow-hidden rounded-[var(--radius)] border border-[var(--border)]">
+            <table className="w-full border-collapse text-left text-sm">
+              <thead className="bg-[var(--bg-subtle)] text-[var(--text-secondary)]">
+                <tr>
+                  <th className="px-4 py-4 font-medium"> </th>
+                  <th className="px-4 py-4 font-medium">Doing it alone</th>
+                  <th className="bg-[var(--indigo-dim)] px-4 py-4 font-medium text-[var(--indigo)]">With Talosly</th>
+                </tr>
+              </thead>
+              <tbody>
+                {revenueRows.map((row, index) => (
+                  <tr
+                    key={row[0]}
+                    className={`border-t border-[var(--border)] ${index === revenueRows.length - 1 ? "font-semibold text-[var(--green)]" : "text-[var(--text-secondary)]"}`}
+                  >
+                    <td className="px-4 py-4 text-[var(--text-primary)]">{row[0]}</td>
+                    <td className="px-4 py-4">{row[1]}</td>
+                    <td className="px-4 py-4">{row[2]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-4xl px-6 pb-20">
+        <h2 className="text-3xl font-semibold text-[var(--text-primary)]">FAQ</h2>
+        <div className="mt-8 space-y-3">
+          {faqItems.map((item) => {
+            const open = openQuestion === item.question;
+
+            return (
+              <div key={item.question} className="rounded-[var(--radius)] border border-[var(--border)] bg-[var(--bg-card)]">
+                <button
+                  onClick={() => setOpenQuestion(open ? null : item.question)}
+                  className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                >
+                  <span className="text-sm font-medium text-[var(--text-primary)]">{item.question}</span>
+                  <ChevronDown className={`h-4 w-4 text-[var(--text-secondary)] transition ${open ? "rotate-180" : ""}`} />
+                </button>
+                {open ? <p className="px-5 pb-5 text-sm leading-7 text-[var(--text-secondary)]">{item.answer}</p> : null}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    </motion.main>
   );
 }

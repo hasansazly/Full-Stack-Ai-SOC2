@@ -1,17 +1,29 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Toaster } from "sonner";
 
 import "@/app/globals.css";
+import { SiteChrome } from "@/components/site-chrome";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Talosly — SOC 2 compliance that fixes gaps, not just flags them",
+  title: "Talosly — SOC 2 that fixes gaps, not just flags them",
   description:
-    "Talosly connects to your AWS and GitHub, finds the SOC 2 gaps blocking your enterprise deal, and generates the exact CLI commands and API calls to fix them. Used by B2B SaaS founders closing deals faster.",
+    "Connect AWS and GitHub. Get the exact CLI commands and API calls to fix your SOC 2 gaps. The only compliance platform that goes from evidence to remediation in one workflow. Used by B2B SaaS founders closing enterprise deals.",
   openGraph: {
-    title: "Talosly — Close your enterprise deal. SOC 2 in 6 weeks.",
-    description: "The only compliance platform that fixes your gaps automatically. Not just flags them.",
+    title: "Talosly — SOC 2 that fixes gaps, not just flags them",
+    description: "Auto-remediation for SOC 2. Connect AWS + GitHub, get exact fixes, close the enterprise deal.",
     url: "https://www.talosly.com",
     siteName: "Talosly",
-    type: "website"
+    type: "website",
+    images: [
+      {
+        url: "https://www.talosly.com/og.png",
+        width: 1200,
+        height: 630
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
@@ -23,7 +35,19 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-[#0a0a0a] font-sans text-white">{children}</body>
+      <body className={inter.className}>
+        <SiteChrome>{children}</SiteChrome>
+        <Toaster
+          theme="dark"
+          toastOptions={{
+            style: {
+              background: "var(--bg-card)",
+              border: "1px solid var(--border-bright)",
+              color: "var(--text-primary)"
+            }
+          }}
+        />
+      </body>
     </html>
   );
 }

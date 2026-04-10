@@ -3,20 +3,189 @@
 @tailwind utilities;
 
 :root {
-  --font-sans: "Manrope";
-  --font-display: "Fraunces";
+  --bg: #080808;
+  --bg-card: #0f0f0f;
+  --bg-hover: #141414;
+  --bg-subtle: #1a1a1a;
+  --border: #1f1f1f;
+  --border-bright: #2a2a2a;
+  --text-primary: #f0f0f0;
+  --text-secondary: #888;
+  --text-muted: #444;
+  --indigo: #6366f1;
+  --indigo-hover: #5254cc;
+  --indigo-dim: #6366f115;
+  --green: #22c55e;
+  --red: #ef4444;
+  --orange: #f97316;
+  --yellow: #eab308;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 14px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  @apply bg-background text-foreground antialiased;
-  background-image:
-    radial-gradient(circle at top left, rgba(99, 102, 241, 0.18), transparent 28%),
-    radial-gradient(circle at top right, rgba(79, 70, 229, 0.12), transparent 24%),
-    linear-gradient(180deg, rgba(10,10,10,1), rgba(8,8,12,1));
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: "Inter", -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
-.grain {
-  background-image:
-    linear-gradient(rgba(255,255,255,0.02), rgba(255,255,255,0.02)),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='.03'%3E%3Ccircle cx='2' cy='2' r='2'/%3E%3Ccircle cx='55' cy='20' r='1.6'/%3E%3Ccircle cx='98' cy='58' r='1.8'/%3E%3Ccircle cx='22' cy='88' r='1.5'/%3E%3Ccircle cx='76' cy='108' r='1.4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-bright);
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--indigo);
+  color: white;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--indigo);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes scanLine {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(800%);
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.92);
+    opacity: 0.8;
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.4s ease forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-card) 0%, var(--bg-hover) 50%, var(--bg-card) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+.pulse-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--green) 50%, transparent);
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+
+.blink-cursor {
+  animation: blink 1s step-end infinite;
+}
+
+.pulse-dot {
+  animation: pulse-dot 1.4s ease-in-out infinite;
 }

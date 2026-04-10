@@ -1,172 +1,73 @@
 'use client'
 
-import Link from 'next/link'
+import { motion } from "framer-motion";
+import Link from "next/link";
 
-const BOOKING_URL =
-  process.env.NEXT_PUBLIC_BOOKING_URL ||
-  'mailto:hello@talosly.com?subject=Readiness Review Request'
+const BOOKING_URL = process.env.NEXT_PUBLIC_BOOKING_URL;
+const checklist = [
+  "The specific controls your buyer is asking about",
+  "Whether AWS and GitHub evidence answers them",
+  "Which gaps are deal-killers vs paperwork noise",
+  "What to fix now vs what can wait"
+];
 
 export default function BookPage() {
   return (
-    <main
-      style={{
-        minHeight: '100vh',
-        background: '#0a0a0a',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '40px 20px',
-        fontFamily: 'Inter, sans-serif',
-      }}
+    <motion.main
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="mx-auto max-w-5xl px-6 py-16"
     >
-      <div
-        style={{
-          maxWidth: '560px',
-          width: '100%',
-        }}
-      >
-        <Link
-          href="/"
-          style={{
-            fontSize: '13px',
-            color: '#888',
-            textDecoration: 'none',
-            display: 'inline-block',
-            marginBottom: '32px',
-          }}
-        >
-          ← Back to Talosly
-        </Link>
+      <Link href="/" className="text-sm text-[var(--text-secondary)] transition hover:text-[var(--text-primary)]">
+        ← Back to Talosly
+      </Link>
 
-        <p
-          style={{
-            fontSize: '12px',
-            fontWeight: 500,
-            color: '#6366f1',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            marginBottom: '12px',
-          }}
-        >
-          Readiness Review
+      <div className="mt-8 rounded-[20px] border border-[var(--border)] bg-[var(--bg-card)] p-6 sm:p-8">
+        <p className="text-xs font-medium uppercase tracking-[0.22em] text-[var(--indigo)]">Readiness review</p>
+        <h1 className="mt-4 text-4xl font-semibold text-[var(--text-primary)] sm:text-5xl">Book a 20-minute readiness review</h1>
+        <p className="mt-4 max-w-2xl text-base leading-8 text-[var(--text-secondary)]">
+          Bring the questionnaire, the blocked deal, or the customer ask. We will map the fastest path from not ready to credible answer.
         </p>
 
-        <h1
-          style={{
-            fontSize: '32px',
-            fontWeight: 500,
-            color: '#ffffff',
-            lineHeight: 1.3,
-            marginBottom: '12px',
-          }}
-        >
-          Book a 30-minute readiness review.
-        </h1>
-
-        <p
-          style={{
-            fontSize: '15px',
-            color: '#888',
-            lineHeight: 1.7,
-            marginBottom: '36px',
-          }}
-        >
-          Bring the questionnaire, the blocked deal, or the customer ask. We will map the fastest
-          path from &quot;not ready&quot; to &quot;credible answer.&quot;
-        </p>
-
-        <div
-          style={{
-            background: '#141414',
-            border: '1px solid #2a2a2a',
-            borderRadius: '12px',
-            padding: '24px',
-            marginBottom: '28px',
-          }}
-        >
-          <p
-            style={{
-              fontSize: '13px',
-              fontWeight: 500,
-              color: '#ffffff',
-              marginBottom: '16px',
-            }}
-          >
-            What we cover
-          </p>
-          {[
-            'The specific controls your buyer is likely stuck on',
-            'Whether AWS and GitHub evidence can answer the question directly',
-            'Which gaps are genuine blockers versus paperwork noise',
-            'What to remediate now versus what can wait until SOC 2',
-          ].map((item, i) => (
-            <div
-              key={i}
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                gap: '10px',
-                padding: '8px 0',
-                borderTop: i === 0 ? 'none' : '1px solid #2a2a2a',
-              }}
-            >
-              <span
-                style={{
-                  color: '#6366f1',
-                  fontSize: '14px',
-                  marginTop: '1px',
-                  flexShrink: 0,
-                }}
-              >
-                ✓
-              </span>
-              <span
-                style={{
-                  fontSize: '14px',
-                  color: '#aaa',
-                  lineHeight: 1.5,
-                }}
-              >
-                {item}
-              </span>
-            </div>
-          ))}
+        <div className="mt-8 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg)] p-6">
+          <p className="text-sm font-medium text-[var(--text-primary)]">What we cover</p>
+          <div className="mt-5 space-y-3">
+            {checklist.map((item) => (
+              <div key={item} className="flex items-start gap-3 border-t border-[var(--border)] pt-3 first:border-t-0 first:pt-0">
+                <span className="mt-0.5 text-[var(--indigo)]">✓</span>
+                <span className="text-sm leading-7 text-[var(--text-secondary)]">{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <a
-          href={BOOKING_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'block',
-            width: '100%',
-            padding: '16px',
-            background: '#6366f1',
-            color: '#ffffff',
-            fontSize: '15px',
-            fontWeight: 500,
-            textAlign: 'center',
-            textDecoration: 'none',
-            borderRadius: '10px',
-            marginBottom: '12px',
-            transition: 'background 0.15s',
-          }}
-          onMouseOver={(e) => (e.currentTarget.style.background = '#5558e3')}
-          onMouseOut={(e) => (e.currentTarget.style.background = '#6366f1')}
-        >
-          Book now
-        </a>
-
-        <p
-          style={{
-            fontSize: '12px',
-            color: '#555',
-            textAlign: 'center',
-          }}
-        >
-          30 minutes. No sales pitch. Just the gaps that matter.
-        </p>
+        {BOOKING_URL ? (
+          <div className="mt-8 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border)]">
+            <iframe
+              src={`${BOOKING_URL}?embed_domain=talosly.com&embed_type=Inline&hide_landing_page_details=1&hide_gdpr_banner=1`}
+              width="100%"
+              height="700px"
+              frameBorder="0"
+              title="Book a readiness review"
+            />
+          </div>
+        ) : (
+          <div className="mt-8 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg)] p-8 text-center">
+            <h2 className="text-2xl font-semibold text-[var(--text-primary)]">Book a 20-minute readiness review</h2>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-[var(--text-secondary)]">
+              We will review the buyer questions, identify which controls are real blockers, and tell you what Talosly can fix now versus what can wait.
+            </p>
+            <a
+              href="mailto:founders@talosly.com?subject=Readiness Review Request"
+              className="mt-6 inline-flex rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition hover:bg-[#e0e0e0]"
+            >
+              Email founders@talosly.com
+            </a>
+            <p className="mt-4 text-sm text-[var(--text-muted)]">We respond within 4 hours on weekdays</p>
+          </div>
+        )}
       </div>
-    </main>
-  )
+    </motion.main>
+  );
 }
