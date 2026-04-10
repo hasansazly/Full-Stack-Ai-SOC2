@@ -60,15 +60,15 @@ export default function AboutPage() {
 
       <section className="mx-auto grid max-w-6xl gap-10 px-6 pb-16 lg:grid-cols-[280px_minmax(0,1fr)]">
         <div className="flex h-fit items-center gap-5 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] p-6 lg:flex-col lg:items-start">
-          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[var(--indigo)] to-[#3f41a8] text-2xl font-semibold text-white">
-            [FOUNDER_INITIALS]
+        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[var(--indigo)] to-[#3f41a8] text-2xl font-semibold text-white">
+            AS
           </div>
           <div>
-            <p className="text-2xl font-semibold text-[var(--text-primary)]">[FOUNDER_FULL_NAME]</p>
-            <p className="mt-1 text-sm text-[var(--text-secondary)]">Founder &amp; CEO, Talosly</p>
+            <p className="text-2xl font-semibold text-[var(--text-primary)]">Abu Hasan Sazly Sarkar</p>
+            <p className="mt-1 text-sm text-[var(--text-secondary)]">Founder, Talosly</p>
             <div className="mt-4 flex flex-wrap gap-3 text-sm">
               <a
-                href="[FOUNDER_LINKEDIN_URL]"
+                href="https://www.linkedin.com/in/abu-hasan-sazly-sarkar-b245a424b/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full border border-[var(--border-bright)] px-4 py-1.5 text-[var(--indigo)] transition hover:border-[var(--indigo)]"
@@ -84,10 +84,10 @@ export default function AboutPage() {
 
         <div>
           <p className="max-w-3xl text-lg leading-8 text-[var(--text-secondary)]">
-            Previously [FOUNDER_BIO_SENTENCE_1] I experienced this pain firsthand when [FOUNDER_BIO_SENTENCE_2] I am building Talosly because [FOUNDER_BIO_SENTENCE_3]
+            Abu Hasan Sazly Sarkar is the founder of Talosly, a company building the trust infrastructure layer for startups selling into enterprise. He started Talosly to solve a problem he saw repeatedly: companies were losing speed, credibility, and revenue because security reviews, SOC 2 prep, and compliance workflows were still manual, fragmented, and slow. A Computer Science student at Temple University, he is focused on turning trust from a bottleneck into software that finds gaps, fixes them, and proves readiness automatically.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            {["[BACKGROUND_TAG_1]", "[BACKGROUND_TAG_2]", "[BACKGROUND_TAG_3]"].map((tag) => (
+            {["Computer Science", "Trust infrastructure", "Enterprise compliance"].map((tag) => (
               <span
                 key={tag}
                 className="rounded-full border border-[var(--border)] bg-[var(--bg-card)] px-3 py-1 text-xs text-[var(--text-secondary)]"
