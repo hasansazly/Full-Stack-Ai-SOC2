@@ -58,21 +58,6 @@ const comparisonRows = [
   ["CPA-ready audit trail", "✓", "—", "—", "—"]
 ];
 
-const founderQuotes = [
-  {
-    quote:
-      "We had a $180k deal stalled for 3 weeks on a vendor security questionnaire. Talosly identified the two actual blockers in 20 minutes and generated the exact fixes. We answered the questionnaire that afternoon.",
-    byline: "— S.C., CTO, B2B SaaS startup"
-  },
-  {
-    quote:
-      "I was paralyzed at 11pm reading a 340-question security assessment. Talosly told me exactly which 5 questions would kill the deal and what to do about each one. Call with their CISO went fine.",
-    byline: "— Anonymous founder, Series A"
-  }
-];
-
-const founderTags = ["[BACKGROUND_TAG_1]", "[BACKGROUND_TAG_2]", "[BACKGROUND_TAG_3]"];
-
 const marketStats = [
   { value: "$5.6B", label: "Compliance software market size" },
   { value: "13%", label: "Annual market growth rate" },
@@ -249,61 +234,6 @@ export default function HomePage() {
               ))}
             </tbody>
           </table>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-[0.22em] text-[var(--indigo)]">Founder</p>
-            <h2 className="mt-4 text-4xl font-semibold leading-tight text-[var(--text-primary)]">Built by a founder who felt this pain.</h2>
-            <div className="mt-8 flex items-start gap-5">
-              <div className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-[var(--indigo)] text-2xl font-semibold text-white">
-                [FOUNDER_INITIALS]
-              </div>
-              <div>
-                <p className="text-xl font-semibold text-[var(--text-primary)]">[FOUNDER_NAME]</p>
-                <p className="mt-1 text-sm text-[var(--text-secondary)]">Founder, Talosly</p>
-                <a
-                  href="[FOUNDER_LINKEDIN_URL]"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 inline-flex rounded-full border border-[var(--border-bright)] px-4 py-2 text-sm text-[var(--indigo)] transition hover:border-[var(--indigo)]"
-                >
-                  LinkedIn
-                </a>
-              </div>
-            </div>
-            <p className="mt-8 max-w-xl text-[15px] leading-8 text-[var(--text-secondary)]">
-              [FOUNDER_BIO_SENTENCE_1] [FOUNDER_BIO_SENTENCE_2] [FOUNDER_BIO_SENTENCE_3]
-            </p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              {founderTags.map((tag) => (
-                <span key={tag} className="rounded-full border border-[var(--border)] bg-[var(--bg-card)] px-3 py-1 text-xs text-[var(--text-secondary)]">
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <div className="mt-8">
-              <p className="text-sm text-[var(--text-muted)]">Trusted by founders at</p>
-              <div className="mt-3 flex flex-wrap gap-3">
-                {["Series A SaaS", "YC W24", "Fintech startup", "Healthcare SaaS"].map((item) => (
-                  <span key={item} className="rounded-full border border-[var(--border)] bg-[var(--bg-card)] px-3 py-1 text-xs text-[var(--text-secondary)]">
-                    {item}
-                  </span>
-                ))}
-              </div>
-              <p className="mt-3 text-xs text-[var(--text-muted)]">Design partners — names shared on request</p>
-            </div>
-          </div>
-          <div className="space-y-4">
-            {founderQuotes.map((quote) => (
-              <div key={quote.byline} className="rounded-[var(--radius)] border border-[var(--border)] border-l-[3px] border-l-[var(--indigo)] bg-[var(--bg-card)] px-6 py-5">
-                <p className="text-[15px] italic leading-8 text-[var(--text-primary)]">{quote.quote}</p>
-                <p className="mt-3 text-sm text-[var(--text-muted)]">{quote.byline}</p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
