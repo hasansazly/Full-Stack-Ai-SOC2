@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 import { Badge } from "@/components/ui/badge";
@@ -37,7 +38,16 @@ function statusBadge(status: string) {
   }
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams
+}: {
+  searchParams?: Promise<{ mode?: string }>;
+}) {
+  const params = searchParams ? await searchParams : undefined;
+  if (params?.mode === "sample") {
+    redirect("/sample");
+  }
+
   const supabase = createClient();
   const {
     data: { user }
