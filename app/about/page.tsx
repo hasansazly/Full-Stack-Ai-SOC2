@@ -60,7 +60,7 @@ export default function AboutPage() {
 
       <section className="mx-auto grid max-w-6xl gap-10 px-6 pb-16 lg:grid-cols-[280px_minmax(0,1fr)]">
         <div className="flex h-fit items-center gap-5 rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg-card)] p-6 lg:flex-col lg:items-start">
-        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[var(--indigo)] to-[#3f41a8] text-2xl font-semibold text-white">
+          <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[var(--indigo)] to-[#3f41a8] text-2xl font-semibold text-white">
             AS
           </div>
           <div>
